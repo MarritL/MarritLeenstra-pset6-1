@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "202102992982",
+    "firebase_url": "https://marritleenstra-pset6-1.firebaseio.com",
+    "project_id": "marritleenstra-pset6-1",
+    "storage_bucket": "marritleenstra-pset6-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202102992982:android:bf9e18b61be47c96",
+        "android_client_info": {
+          "package_name": "marrit.marritleenstra_pset6_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202102992982-0okgsrcn186p4vbs64nca9be370imf50.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "marrit.marritleenstra_pset6_1",
+            "certificate_hash": "55ef0940ce625edb7b46f45242737c1b5c4b205e"
+          }
+        },
+        {
+          "client_id": "202102992982-pd1hh8jurrg8oc79mt51pd9gblsfkjg1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK0yoGmbfBNFgTCPw7N3JHR-KKDJYRuAU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202102992982-pd1hh8jurrg8oc79mt51pd9gblsfkjg1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
