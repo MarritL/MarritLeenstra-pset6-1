@@ -34,7 +34,8 @@ public class SignInActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private TextView mGoToRegisterView;
+    public TextView mGoToRegisterView;
+    public Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +46,12 @@ public class SignInActivity extends AppCompatActivity {
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mGoToRegisterView = (TextView) findViewById(R.id.go_to_register);
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 
         // set listeners
         mEmailSignInButton.setOnClickListener(new attemptLoginOnClick());
         mGoToRegisterView.setOnClickListener(new goToRegisterOnClick());
+        //mGoToRegisterView.setOnClickListener(new activityChanger());
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -159,6 +161,9 @@ public class SignInActivity extends AppCompatActivity {
                                 Toast.makeText(SignInActivity.this, "signed in",
                                         Toast.LENGTH_SHORT).show();
 
+                                // go to mainActivity
+                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                SignInActivity.this.startActivity(intent);
                             }
 
                             // ...

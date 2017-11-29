@@ -23,4 +23,12 @@
     <string name="no_account">I don\'t have an account yet!</string>
     <string name="welcome_register">Register as a new user</string>
     <string name="repeat_password">Repeat password</string>
+
+    <!--Strings related to bottom navigation-->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_user">Username</string>
+    <string name="title_community">Community</string>
 </resources>

@@ -3,6 +3,7 @@ package marrit.marritleenstra_pset6_1;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mPasswordRepeatView;
     private View mProgressView;
     private View mRegisterFormView;
+    public Button mEmailRegisterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         mPasswordRepeatView = (EditText) findViewById(R.id.password_repeat);
         mRegisterFormView = findViewById(R.id.register_form);
         mProgressView = findViewById(R.id.register_progress);
-        Button mEmailRegisterButton = (Button) findViewById(R.id.email_register_button);
+        mEmailRegisterButton = (Button) findViewById(R.id.email_register_button);
 
         // set listeners
         mEmailRegisterButton.setOnClickListener(new registerOnClick());
@@ -180,11 +182,14 @@ public class RegisterActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(RegisterActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
-                            } else Toast.makeText(RegisterActivity.this, R.string.auth_succes,
-                                    Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, R.string.auth_succes,
+                                        Toast.LENGTH_SHORT).show();
 
+                                Intent intent = new Intent(RegisterActivity.this, SignInActivity.class);
+                                RegisterActivity.this.startActivity(intent);
+                            }
 
-                            // ...
                         }
                     });
             showProgress(false);
@@ -195,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Shows the progress UI and hides the login form.
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
+    public void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
