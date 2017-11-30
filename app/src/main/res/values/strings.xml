@@ -37,4 +37,12 @@
     <string name="hello_blank_fragment">Hello home fragment</string>
     <string name="hello_user_fragement">Hello user fragement</string>
     <string name="hello_community_fragment">Hello community fragement</string>
+
+    <!--Strings related to user fragement layout-->
+    <string name="run_streak">Current Run streak</string>
+    <string name="days">days</string>
+    <string name="total_days">Total days eaten vegetarian</string>
+    <string name="total_CO2">Total CO2 emission avoided</string>
+    <string name="total_animals">Total animals saved</string>
+
 </resources>
