@@ -36,6 +36,12 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
         </activity>
+        <receiver android:name=".AlarmReceiver"  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
