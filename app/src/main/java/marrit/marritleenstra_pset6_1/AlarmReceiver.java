@@ -25,7 +25,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Log.d("DEBUG", "alarm received");
 
-        //long when = System.currentTimeMillis();
+        long when = System.currentTimeMillis();
         //NotificationManager notificationManager = (NotificationManager) context
         //        .getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -46,21 +46,24 @@ public class AlarmReceiver extends BroadcastReceiver {
                 //.addAction(R.drawable.ic_no, "no", resultPendingIntent)
                 .setContentIntent(resultPendingIntent)
                 //.setAutoCancel(true).setWhen(when)
-                .setAutoCancel(true)
+                .setAutoCancel(true).setWhen(when)
                 //.setContentIntent(resultPendingIntent)
                 .setVibrate(new long[]{1000,1000,1000});
 
-        // yes action button
-        Intent yesReceive = new Intent();
+        /*// yes action button
+        Intent yesReceive = new Intent(context, AlarmReceiver.class);
         yesReceive.setAction("YES");
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(context, 0, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+
         mNotificationBuilder.addAction(R.drawable.ic_yes, "YES", pendingIntentYes);
+        Log.d("ALARMRECEIVER", "yesReceive sent");
 
         // no action button
-        Intent noReceive = new Intent();
+        Intent noReceive = new Intent(context, AlarmReceiver.class);
         noReceive.setAction("NO");
         PendingIntent pendingIntentNo = PendingIntent.getBroadcast(context, 0, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-        mNotificationBuilder.addAction(R.drawable.ic_no, "NO", pendingIntentNo);
+        Log.d("ALARMRECEIVER", "NoReceive sent");
+        mNotificationBuilder.addAction(R.drawable.ic_no, "NO", pendingIntentNo);*/
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 

@@ -42,7 +42,7 @@ public class MainActivity extends FragmentActivity {
     private TextView mTextMessage;
 
     // variables
-    User mUser;
+    public User mUser;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,6 +53,10 @@ public class MainActivity extends FragmentActivity {
                 case R.id.navigation_home:
                     // create new fragment
                     HomeFragment homeFragment = new HomeFragment();
+                    Bundle data = new Bundle();
+                    Log.d(TAG, "to fragment id:" + mUser.getUID());
+                    data.putString("USER", mUser.getUID());
+                    homeFragment.setArguments(data);
 
                     // add the fragment to the 'fragment_container' framelayout
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -117,12 +121,6 @@ public class MainActivity extends FragmentActivity {
             }
         };
 
-        // create new fragment
-        HomeFragment firstHomeFragment = new HomeFragment();
-        // add the fragment to the 'fragment_container' framelayout
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, firstHomeFragment).commit();
-
 
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -154,7 +152,19 @@ public class MainActivity extends FragmentActivity {
                     Log.w(TAG, "Failed to read value.", error.toException());
                 }
             });
+
+            // create new fragment
+            HomeFragment firstHomeFragment = new HomeFragment();
+            Bundle data = new Bundle();
+            data.putString("USER", mUid);
+            firstHomeFragment.setArguments(data);
+            // add the fragment to the 'fragment_container' framelayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, firstHomeFragment).commit();
         }
+
+
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // run recurring alarm
@@ -163,14 +173,14 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-
+    // TODO: alarm is sending all the time again.
     private void setRecurringAlarm(Context context) {
 
         // set the alarm at approximately 21 o'clock
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         System.out.println(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 13);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
         calendar.set(Calendar.MINUTE, 30);
         Log.d("DEBUG", "alarm was set at" + calendar.getTimeInMillis());
 
@@ -183,6 +193,8 @@ public class MainActivity extends FragmentActivity {
         alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingAlarmIntent);
     }
+
+
 
 
 }

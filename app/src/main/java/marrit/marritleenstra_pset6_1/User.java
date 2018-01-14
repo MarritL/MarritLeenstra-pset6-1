@@ -1,11 +1,13 @@
 package marrit.marritleenstra_pset6_1;
 
 
+import java.io.Serializable;
+
 /**
  * Created by Marrit on 4-12-2017.
  */
 
-public class User {
+public class User implements Serializable {
 
     private String mUID;
     private String mEmail;
@@ -75,4 +77,5 @@ public class User {
     public void setAnimalsSaved(double animalsSaved) {
         mAnimalsSaved = animalsSaved;
     }
+
 }
