@@ -5,7 +5,6 @@
              android:layout_height="match_parent"
              tools:context="marrit.marritleenstra_pset6_1.UserFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +30,6 @@
             android:id="@+id/TV_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_user_fragement"
             android:layout_alignBottom="@+id/IV_user"
             android:layout_centerHorizontal="true"/>
 
@@ -45,6 +43,7 @@
             android:layout_marginEnd="16dp"/>
 
     </RelativeLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -140,6 +139,7 @@
                 android:text="100"/>
 
         </RelativeLayout>
+
 
 
 

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,8 +26,10 @@ import org.w3c.dom.Text;
 
 public class SignInActivity extends AppCompatActivity {
 
+    // firebase references
     public FirebaseAuth mAuth;
     public FirebaseAuth.AuthStateListener mAuthListener;
+    public FirebaseAnalytics mFirebaseAnalytics;
     public String TAG = "AUTHENTICATION";
 
     // UI references.
@@ -56,7 +59,11 @@ public class SignInActivity extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+
         mAuth = FirebaseAuth.getInstance();
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override

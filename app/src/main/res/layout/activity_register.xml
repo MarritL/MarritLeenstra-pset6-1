@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10sp"
                     android:layout_centerHorizontal="true"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:text="@string/welcome_register"/>
             </RelativeLayout>
@@ -55,6 +55,20 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/displayname_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_displayname"
                     android:maxLines="1"
                     android:singleLine="true"/>
 

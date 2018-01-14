@@ -23,15 +23,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
     public FirebaseAuth mAuth;
     public FirebaseAuth.AuthStateListener mAuthListener;
     public String TAG = "AUTHENTICATION";
+    private DatabaseReference mDatabase;
 
     // UI references.
     private EditText mEmailView;
+    private EditText mDisplaynameView;
     private EditText mPasswordView;
     private EditText mPasswordRepeatView;
     private View mProgressView;
@@ -50,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         mRegisterFormView = findViewById(R.id.register_form);
         mProgressView = findViewById(R.id.register_progress);
         mEmailRegisterButton = (Button) findViewById(R.id.email_register_button);
+        mDisplaynameView = (EditText) findViewById(R.id.displayname_register);
 
         // set listeners
         mEmailRegisterButton.setOnClickListener(new registerOnClick());
@@ -125,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the register attempt.
-        String email = mEmailView.getText().toString();
+        final String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String passwordRepeat = mPasswordRepeatView.getText().toString();
 
@@ -185,6 +190,32 @@ public class RegisterActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(RegisterActivity.this, R.string.auth_succes,
                                         Toast.LENGTH_SHORT).show();
+
+                                // create user with UID, email and displayname
+                                String displayname = mDisplaynameView.getText().toString();
+                                //if user didn't give displayname use email
+                                if(displayname.equals("")) {
+                                    displayname = email;
+                                }
+                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                String mUid = null;
+                                if (firebaseUser != null) {
+                                    mUid = firebaseUser.getUid();
+                                }
+
+
+
+                                /*FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference users = database.getReference();
+
+                                users.child(mUid).setValue(user);*/
+
+                                mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                                // add object to the database
+                                User user = new User(mUid, email, displayname);
+                                mDatabase.child("users").child(mUid).setValue(user);
+
 
                                 Intent intent = new Intent(RegisterActivity.this, SignInActivity.class);
                                 RegisterActivity.this.startActivity(intent);
