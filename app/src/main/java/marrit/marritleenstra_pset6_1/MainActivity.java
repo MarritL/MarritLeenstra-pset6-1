@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -43,6 +44,8 @@ public class MainActivity extends FragmentActivity {
 
     // variables
     public User mUser;
+    boolean mAlarmOn;
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -101,6 +104,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
 
         // check if user is signed in.
@@ -121,8 +125,16 @@ public class MainActivity extends FragmentActivity {
             }
         };
 
+        // Restore preferences
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        mAlarmOn = settings.getBoolean("ALARMON", false);
+        System.out.println("mAlarmOn3 = " + mAlarmOn);
 
+        // initialise bottom navigation tabs
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Read from the database
@@ -164,24 +176,26 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         // run recurring alarm
-        setRecurringAlarm(MainActivity.this);
+        System.out.println("mAlarmOn1 =" + mAlarmOn);
+        if (!mAlarmOn) {
+            setRecurringAlarm(MainActivity.this);
+            mAlarmOn = true;
+            System.out.println("mAlarmOn2 =" + mAlarmOn);
+        }
 
     }
 
 
-    // TODO: alarm is sending all the time again.
+    // schedule daily alarm
     private void setRecurringAlarm(Context context) {
 
         // set the alarm at approximately 21 o'clock
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         System.out.println(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 30);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 00);
         Log.d("DEBUG", "alarm was set at" + calendar.getTimeInMillis());
 
         // set action
@@ -195,6 +209,17 @@ public class MainActivity extends FragmentActivity {
     }
 
 
+    // save preferences
+    @Override
+    protected void onStop(){
+        super.onStop();
 
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        System.out.println("mAlarmOn4 =" + mAlarmOn);
+        editor.putBoolean("ALARMON", mAlarmOn);
+        editor.commit();
+
+    }
 
 }
