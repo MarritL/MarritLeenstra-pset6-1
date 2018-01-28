@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity {
     // firebase references
     public FirebaseAuth mAuth;
     public FirebaseAuth.AuthStateListener mAuthListener;
-    public String TAG = "AUTHENTICATION";
+    public String TAG = "MAINACTIVITY";
     private DatabaseReference mDatabase;
 
 
@@ -56,9 +56,12 @@ public class MainActivity extends FragmentActivity {
                 case R.id.navigation_home:
                     // create new fragment
                     HomeFragment homeFragment = new HomeFragment();
+
+                    // add User data
                     Bundle data = new Bundle();
                     Log.d(TAG, "to fragment id:" + mUser.getUID());
                     data.putString("USER", mUser.getUID());
+                    data.putSerializable("USERDATA", mUser);
                     homeFragment.setArguments(data);
 
                     // add the fragment to the 'fragment_container' framelayout
@@ -73,6 +76,11 @@ public class MainActivity extends FragmentActivity {
                 case R.id.navigation_user:
                     // create new fragment
                     UserFragment userFragment = new UserFragment();
+
+                    // add User data
+                    Bundle dataUser = new Bundle();
+                    dataUser.putSerializable("USERDATA", mUser);
+                    userFragment.setArguments(dataUser);
 
                     // add the fragment to the 'fragment_container' framelayout
                     FragmentTransaction newTransaction = getSupportFragmentManager().beginTransaction();
@@ -102,7 +110,7 @@ public class MainActivity extends FragmentActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
@@ -135,7 +143,9 @@ public class MainActivity extends FragmentActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
         // Read from the database
         if (firebaseUser != null) {
@@ -150,11 +160,16 @@ public class MainActivity extends FragmentActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    mUser = dataSnapshot.child(mUid).getValue(User.class);
+                    mUser = dataSnapshot.child("users").child(mUid).getValue(User.class);
 
                     // display displayName in the bottomNavigation
                     String mDisplayname = mUser.getDisplayName();
                     navigation.getMenu().findItem(R.id.navigation_user).setTitle(mDisplayname);
+
+                    // on launch the hometab is opened (initiated here, because needs the user data)
+                    if(savedInstanceState==null) {
+                        navigation.setSelectedItemId(R.id.navigation_home);
+                    }
 
                 }
 
@@ -165,14 +180,6 @@ public class MainActivity extends FragmentActivity {
                 }
             });
 
-            // create new fragment
-            HomeFragment firstHomeFragment = new HomeFragment();
-            Bundle data = new Bundle();
-            data.putString("USER", mUid);
-            firstHomeFragment.setArguments(data);
-            // add the fragment to the 'fragment_container' framelayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, firstHomeFragment).commit();
         }
 
 
@@ -209,6 +216,7 @@ public class MainActivity extends FragmentActivity {
     }
 
 
+
     // save preferences
     @Override
     protected void onStop(){
@@ -220,6 +228,13 @@ public class MainActivity extends FragmentActivity {
         editor.putBoolean("ALARMON", mAlarmOn);
         editor.commit();
 
+    }
+
+    // remember if the app was running already before event like rotation
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean("ALREADYSTARTED", true);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 }

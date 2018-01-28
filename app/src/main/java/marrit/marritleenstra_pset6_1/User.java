@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String mDisplayName;
     private int mRunStreak;
     private int mDaysVegetarian;
+    private double mCO2Avoided;
     private double mAnimalsSaved;
 
     // default constructor for FireBase
@@ -27,6 +28,7 @@ public class User implements Serializable {
         mRunStreak = 0;
         mDaysVegetarian = 0;
         mAnimalsSaved = 0;
+        mCO2Avoided = 0;
     }
 
     // getters and setters
@@ -78,4 +80,11 @@ public class User implements Serializable {
         mAnimalsSaved = animalsSaved;
     }
 
+    public double getCO2Avoided() {
+        return mCO2Avoided;
+    }
+
+    public void setCO2Avoided(int CO2Avoided) {
+        mCO2Avoided = CO2Avoided;
+    }
 }
