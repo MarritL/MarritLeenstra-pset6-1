@@ -36,12 +36,21 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
         </activity>
-        <receiver android:name=".AlarmReceiver"  android:exported="true">
-            <!--<intent-filter>
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="true">
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </receiver>
+
+        <activity android:name=".ForgotPasswordActivity">
+        </activity>
     </application>
 
 </manifest>

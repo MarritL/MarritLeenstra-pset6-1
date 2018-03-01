@@ -27,8 +27,8 @@ public class User implements Serializable {
         mDisplayName = displayName;
         mRunStreak = 0;
         mDaysVegetarian = 0;
-        mAnimalsSaved = 0;
-        mCO2Avoided = 0;
+        mAnimalsSaved = 0.0;
+        mCO2Avoided = 0.0;
     }
 
     // getters and setters

@@ -27,7 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import java.util.List;
 
+import static android.R.attr.data;
 import static android.R.attr.value;
 
 public class MainActivity extends FragmentActivity {
@@ -46,6 +48,11 @@ public class MainActivity extends FragmentActivity {
     public User mUser;
     boolean mAlarmOn;
     public static final String PREFS_NAME = "MyPrefsFile";
+    int mSumDays;
+    double mSumAnimals;
+    double mSumCO2;
+    int mSumParticipantsToday;
+    int mSumParticipants;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,6 +100,15 @@ public class MainActivity extends FragmentActivity {
                 case R.id.navigation_community:
                     // create new fragment
                     CommunityFragment communityFragment = new CommunityFragment();
+                    
+                    //TODO: put all sum data in
+                    // add community data
+                    Bundle dataCommunity = new Bundle();
+                    dataCommunity.putInt("DAYS", mSumDays);
+                    dataCommunity.putInt("PARTICIPANTS", mSumParticipants);
+                    dataCommunity.putDouble("CO2", mSumCO2);
+                    dataCommunity.putDouble("ANIMALS", mSumAnimals);
+                    communityFragment.setArguments(dataCommunity);
 
                     // add the fragment to the 'fragment_container' framelayout
                     FragmentTransaction communityTransaction = getSupportFragmentManager().beginTransaction();
@@ -160,6 +176,8 @@ public class MainActivity extends FragmentActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
+
+                    // get current user data
                     mUser = dataSnapshot.child("users").child(mUid).getValue(User.class);
 
                     // display displayName in the bottomNavigation
@@ -169,6 +187,35 @@ public class MainActivity extends FragmentActivity {
                     // on launch the hometab is opened (initiated here, because needs the user data)
                     if(savedInstanceState==null) {
                         navigation.setSelectedItemId(R.id.navigation_home);
+                    }
+
+                    // when data changed set all the community values to 0
+                    mSumDays = 0;
+                    mSumAnimals = 0;
+                    mSumCO2 = 0;
+                    mSumParticipantsToday = 0;
+                    mSumParticipants = 0;
+
+                    // set the community values
+                    for (DataSnapshot ds:dataSnapshot.child("users").getChildren()) {
+
+                        //TODO: finish all values (not only ints!)
+                        // get values of all users in database
+                        int DaysCommunityUser = Integer.valueOf(ds.child("daysVegetarian").getValue().toString());
+                        double AnimalsCommunityUser = Double.valueOf(ds.child("animalsSaved").getValue().toString());
+                        double CO2CommunityUser = Double.valueOf(ds.child("co2Avoided").getValue().toString());
+
+                        // TODO: make sums!
+                        mSumDays = mSumDays + DaysCommunityUser;
+                        mSumAnimals = mSumAnimals + AnimalsCommunityUser;
+                        mSumCO2 = mSumCO2 + CO2CommunityUser;
+                        mSumParticipants += 1;
+
+                        System.out.println("sumAnimals is: " + mSumAnimals);
+                        System.out.println("sumCO2 is: " + mSumCO2);
+                        System.out.println("sumParticipants is: " + mSumParticipants);
+                        System.out.println("sumDays is: " + mSumDays);
+                        
                     }
 
                 }

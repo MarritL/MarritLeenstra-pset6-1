@@ -4,9 +4,13 @@
     <string name="auth_succes">Created user</string>
     <string name="title_activity_login">Sign in</string>
     <string name="notification">Reminder</string>
+
+    <!-- Strings related to home fragment -->
     <string name="question">Did you eat vegetarian today?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="clicked_yes">Good job! Another vegetarian day!</string>
+    <string name="clicked_no">Don\'t worry! Try again tomorrow!</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -28,6 +32,7 @@
     <string name="no_account">I don\'t have an account yet!</string>
     <string name="welcome_register">Register as a new user</string>
     <string name="repeat_password">Repeat password</string>
+    <string name="forgot_password">Oops... I forgot my password.</string>
 
     <!--Strings related to bottom navigation-->
     <string name="title_activity_main">MainActivity</string>
@@ -48,5 +53,17 @@
     <string name="total_days">Total days eaten vegetarian</string>
     <string name="total_CO2">Total CO2 emission avoided</string>
     <string name="total_animals">Total animals saved</string>
+
+    <!--Strings related to community fragment layout-->
+    <string name="community">This is how the community is keeping up!</string>
+    <string name="total_participants">Total participants</string>
+    <string name="total_participants_today">Total people eating vegetarian today</string>
+
+    <!--Strings related to forgot password activity layout-->
+    <string name="new_password_form">Reset your password</string>
+    <string name="send">Send password reset email</string>
+    <string name="send_email">Sent password reset email</string>
+
+
 
 </resources>

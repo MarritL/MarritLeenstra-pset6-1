@@ -39,6 +39,7 @@ public class SignInActivity extends AppCompatActivity {
     private View mLoginFormView;
     public TextView mGoToRegisterView;
     public Button mEmailSignInButton;
+    public TextView mForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,12 @@ public class SignInActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.password);
         mGoToRegisterView = (TextView) findViewById(R.id.go_to_register);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mForgotPassword = (TextView) findViewById(R.id.TV_forgot_password);
 
         // set listeners
         mEmailSignInButton.setOnClickListener(new attemptLoginOnClick());
         mGoToRegisterView.setOnClickListener(new goToRegisterOnClick());
+        mForgotPassword.setOnClickListener(new goToForgotPasswordOnClick());
         //mGoToRegisterView.setOnClickListener(new activityChanger());
 
         mLoginFormView = findViewById(R.id.login_form);
@@ -117,6 +120,18 @@ public class SignInActivity extends AppCompatActivity {
             SignInActivity.this.startActivity(intent);
         }
     }
+
+    public class goToForgotPasswordOnClick implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+
+            Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+            SignInActivity.this.startActivity(intent);
+        }
+    }
+
+
 
     public void attemptLogin() {
 
