@@ -42,11 +42,6 @@
     <string name="title_user">Username</string>
     <string name="title_community">Community</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello home fragment</string>
-    <string name="hello_user_fragement">Hello user fragement</string>
-    <string name="hello_community_fragment">Hello community fragement</string>
-
     <!--Strings related to user fragement layout-->
     <string name="run_streak">Current Run streak</string>
     <string name="days">days</string>
@@ -63,7 +58,12 @@
     <string name="new_password_form">Reset your password</string>
     <string name="send">Send password reset email</string>
     <string name="send_email">Sent password reset email</string>
+    <string name="title_activity_settings">Settings</string>
 
-
+    <!--Strings related to settings-->
+    <string name="change_email">Change email</string>
+    <string name="change_displayname">Change displayname</string>
+    <string name="change_password">Change password</string>
+    <string name="unsubscribe">Unsubscribe</string>
 
 </resources>

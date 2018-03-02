@@ -1,6 +1,8 @@
 package marrit.marritleenstra_pset6_1;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +32,7 @@ public class UserFragment extends Fragment {
     TextView mTotalDays;
     TextView mTotalAnimals;
     TextView mTotalCO2;
+    ImageButton mSettings;
 
 
     // declare variables
@@ -57,6 +61,7 @@ public class UserFragment extends Fragment {
         mTotalDays = (TextView) v.findViewById(R.id.TV_number_total_days);
         mTotalAnimals = (TextView) v.findViewById(R.id.TV_number_total_animals);
         mTotalCO2 = (TextView) v.findViewById(R.id.TV_number_total_CO2);
+        mSettings = (ImageButton) v.findViewById(R.id.IB_settings);
 
         // Set all UI components
         mUserName.setText(user.getDisplayName());
@@ -65,7 +70,22 @@ public class UserFragment extends Fragment {
         mTotalAnimals.setText(String.valueOf(user.getAnimalsSaved()));
         mTotalCO2.setText(String.valueOf(user.getCO2Avoided()));
 
+        // set listener to settings button
+        mSettings.setOnClickListener(new goToSettings());
+
+
         return v;
+    }
+
+    public class goToSettings implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
+        }
+
     }
 
 
