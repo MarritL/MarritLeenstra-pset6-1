@@ -65,5 +65,7 @@
     <string name="change_displayname">Change displayname</string>
     <string name="change_password">Change password</string>
     <string name="unsubscribe">Unsubscribe</string>
+    <string name="change">Change</string>
+    <string name="new_email">New email address</string>
 
 </resources>

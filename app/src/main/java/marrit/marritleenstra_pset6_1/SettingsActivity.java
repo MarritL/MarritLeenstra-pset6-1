@@ -26,20 +26,23 @@ public class SettingsActivity extends AppCompatActivity {
         mUnsubscribe = (TextView) findViewById(R.id.unsubscribe);
 
         //set listeners on UI references
+        mChangeEmail.setOnClickListener(new goToNextActivity());
 
     }
 
-    /*public class goToNextActivity implements View.OnClickListener {
+    public class goToNextActivity implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
 
             Intent newIntent;
 
-            if (view == mChangeDisplayname) {
+            if (view == mChangeEmail) {
+                newIntent = new Intent(SettingsActivity.this, ChangeEmailActivity.class);
+                SettingsActivity.this.startActivity(newIntent);
 
             }
 
         }
-    }*/
+    }
 }
