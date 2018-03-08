@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity {
 
                     transaction.replace(R.id.fragment_container, homeFragment);
                     transaction.addToBackStack(null);
-                    transaction.commit();
+                    transaction.commitAllowingStateLoss();
 
                     return true;
 
@@ -283,5 +283,7 @@ public class MainActivity extends FragmentActivity {
         savedInstanceState.putBoolean("ALREADYSTARTED", true);
         super.onSaveInstanceState(savedInstanceState);
     }
+
+    //TODO: if app not used for one day, runstreak should go to 0 (automatic a no)
 
 }
