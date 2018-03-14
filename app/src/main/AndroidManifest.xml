@@ -21,7 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".SignInActivity">
         </activity>
         <activity
             android:name=".MainActivity"
@@ -40,13 +42,19 @@
             -->
         </receiver>
 
-        <activity android:name=".ForgotPasswordActivity">
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:parentActivityName=".SignInActivity">
         </activity>
-        <activity android:name=".SettingsActivity"
+        <activity
+            android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".ChangeEmailActivity"
+        <activity
+            android:name=".ChangeEmailActivity"
             android:parentActivityName=".SettingsActivity">
+        </activity>
+        <activity android:name=".ChangePasswordActivity">
         </activity>
     </application>
 

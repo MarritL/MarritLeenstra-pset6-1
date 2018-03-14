@@ -39,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //set listeners on UI references
         mChangeEmail.setOnClickListener(new goToNextActivity());
+        mChangePassword.setOnClickListener(new goToNextActivity());
 
         mChangeDisplayname.setOnClickListener(new changeDisplayName());
 
@@ -56,7 +57,10 @@ public class SettingsActivity extends AppCompatActivity {
             if (view == mChangeEmail) {
                 newIntent = new Intent(SettingsActivity.this, ChangeEmailActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
-
+            }
+            if (view == mChangePassword) {
+                newIntent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
+                SettingsActivity.this.startActivity(newIntent);
             }
 
         }
