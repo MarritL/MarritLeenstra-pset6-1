@@ -62,7 +62,7 @@ public class CommunityFragment extends Fragment {
 
         // get Community data
 
-        int mSumDays = getArguments().getInt("COMMUNITYDATA");
+        int mSumDays = getArguments().getInt("DAYS");
         double mSumAnimals = getArguments().getDouble("ANIMALS");
         double mSumCO2 = getArguments().getDouble("CO2");
         int mSumParticipants = getArguments().getInt("PARTICIPANTS");
@@ -74,9 +74,13 @@ public class CommunityFragment extends Fragment {
         mTotalParticipantsToday = (TextView) view.findViewById(R.id.TV_number_total_participants_today);
         mTotalParticipants = (TextView) view.findViewById(R.id.TV_number_total_participants);
 
+        // format strings
+
+
+
         // display values in UI
         mTotalDaysCommunity.setText(String.valueOf(mSumDays));
-        mTotalAnimalsCommunity.setText(String.valueOf(mSumAnimals));
+        mTotalAnimalsCommunity.setText(String.format("%.2f", mSumAnimals));
         mTotalCO2Community.setText(String.valueOf(mSumCO2));
         mTotalParticipants.setText(String.valueOf(mSumParticipants));
 

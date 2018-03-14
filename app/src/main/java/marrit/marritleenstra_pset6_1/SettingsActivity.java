@@ -29,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        //TODO: how can you on up navigation go to the right tab? (manifest now mainActivity as parent)
+
         //initiate UI references
         mChangeDisplayname = (TextView) findViewById(R.id.change_displayname);
         mChangeEmail = (TextView) findViewById(R.id.change_email);

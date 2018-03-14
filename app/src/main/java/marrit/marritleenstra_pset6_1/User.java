@@ -84,7 +84,7 @@ public class User implements Serializable {
         return mCO2Avoided;
     }
 
-    public void setCO2Avoided(int CO2Avoided) {
+    public void setCO2Avoided(double CO2Avoided) {
         mCO2Avoided = CO2Avoided;
     }
 }

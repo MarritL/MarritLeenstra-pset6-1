@@ -21,15 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
         <activity android:name=".RegisterActivity">
         </activity>
         <activity
@@ -51,9 +42,11 @@
 
         <activity android:name=".ForgotPasswordActivity">
         </activity>
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".ChangeEmailActivity">
+        <activity android:name=".ChangeEmailActivity"
+            android:parentActivityName=".SettingsActivity">
         </activity>
     </application>
 

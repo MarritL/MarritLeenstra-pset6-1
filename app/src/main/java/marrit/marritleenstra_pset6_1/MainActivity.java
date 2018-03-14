@@ -248,7 +248,7 @@ public class MainActivity extends FragmentActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         System.out.println(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
         calendar.set(Calendar.MINUTE, 00);
         Log.d("DEBUG", "alarm was set at" + calendar.getTimeInMillis());
 

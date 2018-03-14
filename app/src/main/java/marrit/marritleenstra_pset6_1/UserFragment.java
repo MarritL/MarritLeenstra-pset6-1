@@ -56,8 +56,8 @@ public class UserFragment extends Fragment {
         mUserName.setText(user.getDisplayName());
         mRunStreak.setText(String.valueOf(user.getRunStreak()));
         mTotalDays.setText(String.valueOf(user.getDaysVegetarian()));
-        mTotalAnimals.setText(String.valueOf(user.getAnimalsSaved()));
-        mTotalCO2.setText(String.valueOf(user.getCO2Avoided()));
+        mTotalAnimals.setText(String.format("%.2f", user.getAnimalsSaved()));
+        mTotalCO2.setText(String.format("%.1f", user.getCO2Avoided()));
 
         // set listener to settings button
         mSettings.setOnClickListener(new goToSettings());
