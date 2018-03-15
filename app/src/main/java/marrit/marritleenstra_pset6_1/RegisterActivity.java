@@ -22,6 +22,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -124,6 +128,8 @@ public class RegisterActivity extends AppCompatActivity {
         return password.equals(repeat);
     }
 
+
+
     private void attemptRegister() {
 
         // Reset errors.
@@ -188,6 +194,20 @@ public class RegisterActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(RegisterActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
+                                try {
+                                    throw task.getException();
+                                } catch(FirebaseAuthWeakPasswordException e) {
+                                    mPasswordView.setError(getString(R.string.error_invalid_password));
+                                    mPasswordView.requestFocus();
+                                } catch(FirebaseAuthInvalidCredentialsException e) {
+                                    mEmailView.setError(getString(R.string.error_invalid_email));
+                                    mEmailView.requestFocus();
+                                } catch(FirebaseAuthUserCollisionException e) {
+                                    mEmailView.setError(getString(R.string.error_user_exists));
+                                    mEmailView.requestFocus();
+                                } catch(Exception e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
                             } else {
                                 Toast.makeText(RegisterActivity.this, R.string.auth_succes,
                                         Toast.LENGTH_SHORT).show();

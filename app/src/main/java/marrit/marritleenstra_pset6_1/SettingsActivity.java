@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     TextView mChangePassword;
     TextView mChangeEmail;
     TextView mChangeDisplayname;
+    TextView mLogOut;
     TextView mUnsubscribe;
 
     @Override
@@ -35,16 +36,14 @@ public class SettingsActivity extends AppCompatActivity {
         mChangeDisplayname = (TextView) findViewById(R.id.change_displayname);
         mChangeEmail = (TextView) findViewById(R.id.change_email);
         mChangePassword = (TextView) findViewById(R.id.change_password);
+        mLogOut = (TextView) findViewById(R.id.log_out);
         mUnsubscribe = (TextView) findViewById(R.id.unsubscribe);
 
         //set listeners on UI references
         mChangeEmail.setOnClickListener(new goToNextActivity());
         mChangePassword.setOnClickListener(new goToNextActivity());
-
         mChangeDisplayname.setOnClickListener(new changeDisplayName());
-
-
-
+        mLogOut.setOnClickListener(new goToNextActivity());
     }
 
     public class goToNextActivity implements View.OnClickListener {
@@ -61,6 +60,13 @@ public class SettingsActivity extends AppCompatActivity {
             if (view == mChangePassword) {
                 newIntent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
+            }
+            if (view == mLogOut) {
+                FirebaseAuth.getInstance().signOut();
+
+                newIntent = new Intent(SettingsActivity.this, SignInActivity.class);
+                SettingsActivity.this.startActivity(newIntent);
+
             }
 
         }

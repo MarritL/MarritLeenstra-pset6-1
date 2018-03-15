@@ -33,6 +33,8 @@
     <string name="welcome_register">Register as a new user</string>
     <string name="repeat_password">Repeat password</string>
     <string name="forgot_password">Oops... I forgot my password.</string>
+    <string name="error_user_exists">Email is already registered</string>
+
 
     <!--Strings related to bottom navigation-->
     <string name="title_activity_main">MainActivity</string>
@@ -68,6 +70,7 @@
     <string name="change">Change</string>
     <string name="new_email">New email address</string>
     <string name="new_password">New password</string>
+    <string name="logout">Log out</string>
 
 
 
