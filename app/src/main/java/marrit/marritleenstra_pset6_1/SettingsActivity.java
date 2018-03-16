@@ -2,15 +2,19 @@ package marrit.marritleenstra_pset6_1;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -25,12 +29,16 @@ public class SettingsActivity extends AppCompatActivity {
     TextView mLogOut;
     TextView mUnsubscribe;
 
+    public String TAG = "SETTINGSACTIVITY";
+    public FirebaseAuth.AuthStateListener mAuthListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         //TODO: how can you on up navigation go to the right tab? (manifest now mainActivity as parent)
+
 
         //initiate UI references
         mChangeDisplayname = (TextView) findViewById(R.id.change_displayname);
@@ -44,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         mChangePassword.setOnClickListener(new goToNextActivity());
         mChangeDisplayname.setOnClickListener(new changeDisplayName());
         mLogOut.setOnClickListener(new goToNextActivity());
+        mUnsubscribe.setOnClickListener(new unsubscribeClicked());
     }
 
     public class goToNextActivity implements View.OnClickListener {
@@ -56,17 +65,14 @@ public class SettingsActivity extends AppCompatActivity {
             if (view == mChangeEmail) {
                 newIntent = new Intent(SettingsActivity.this, ChangeEmailActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
-            }
-            if (view == mChangePassword) {
+            } if (view == mChangePassword) {
                 newIntent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
-            }
-            if (view == mLogOut) {
+            } if (view == mLogOut) {
                 FirebaseAuth.getInstance().signOut();
 
                 newIntent = new Intent(SettingsActivity.this, SignInActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
-
             }
 
         }
@@ -77,6 +83,14 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             showDisplayNameDialog();
+        }
+    }
+
+    public class unsubscribeClicked implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view){
+            showAreYouSureDialog();
         }
     }
 
@@ -93,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
         dialogBuilder.setMessage("Change Display name");
 
         // OK-button
-        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -133,8 +147,60 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+    // show dialog that makes sure if the user really wants to delete the account
+    private void showAreYouSureDialog() {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_unsubscribe,null);
+        dialogBuilder.setView(dialogView);
+
+        // OK-button
+        dialogBuilder.setPositiveButton("Delete account", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                // get current user info
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final String mUID = user.getUid();
+
+                // block of code from firebase userguide
+                user.delete()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "User account deleted.");
+
+                                    // TODO: werkt nog niet delete user also from database
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("users").child(mUID).removeValue();
+
+                                    // go to sign in page
+                                    Intent intent = new Intent(SettingsActivity.this, SignInActivity.class);
+                                    SettingsActivity.this.startActivity(intent);
+
+                                }
+                            }
+                        });
+            }
+
+        });
+
+        // cancel button
+        dialogBuilder.setNegativeButton("Cancel", new CancelListener());
+
+        // when the building is done show the dialog in the app screen
+        AlertDialog changeDisplayName = dialogBuilder.create();
+        changeDisplayName.show();
+    }
+
     // cancel listener for dialog box
-    private class CancelListener implements DialogInterface.OnClickListener {
+    public class CancelListener implements DialogInterface.OnClickListener {
 
         @Override
         public void onClick(DialogInterface dialog, int whichButton) {
@@ -144,3 +210,5 @@ public class SettingsActivity extends AppCompatActivity {
 
     // TODO: add back functionality
 }
+
+

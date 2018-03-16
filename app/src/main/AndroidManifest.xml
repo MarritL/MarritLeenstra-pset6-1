@@ -54,7 +54,8 @@
             android:name=".ChangeEmailActivity"
             android:parentActivityName=".SettingsActivity">
         </activity>
-        <activity android:name=".ChangePasswordActivity">
+        <activity android:name=".ChangePasswordActivity"
+            android:parentActivityName=".SettingsActivity">
         </activity>
     </application>
 
