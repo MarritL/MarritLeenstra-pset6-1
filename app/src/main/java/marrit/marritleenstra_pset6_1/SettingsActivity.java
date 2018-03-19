@@ -130,6 +130,9 @@ public class SettingsActivity extends AppCompatActivity {
                     mDisplayName.getText().clear();
 
                 } else {
+                    /*mDisplayName.setError(getString(R.string.error_field_required));
+                    View focusView = mDisplayName;
+                    focusView.requestFocus();*/
                     // TODO: if user gave no title, yell at him with focus etc
                     Toast.makeText(SettingsActivity.this, "Give a display name!", Toast.LENGTH_SHORT).show();
                 }
@@ -168,6 +171,17 @@ public class SettingsActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 final String mUID = user.getUid();
 
+                // TODO: werkt nog niet delete user also from database
+                // sign-out (before deleting from database)
+                FirebaseAuth.getInstance().signOut();
+
+                Intent newIntent = new Intent(SettingsActivity.this, SignInActivity.class);
+                SettingsActivity.this.startActivity(newIntent);
+
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                //mDatabase.child("users").child(mUID).setValue(null);
+                mDatabase.child("users").child(mUID).removeValue();
+
                 // block of code from firebase userguide
                 user.delete()
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -176,13 +190,11 @@ public class SettingsActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "User account deleted.");
 
-                                    // TODO: werkt nog niet delete user also from database
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                    databaseReference.child("users").child(mUID).removeValue();
 
-                                    // go to sign in page
-                                    Intent intent = new Intent(SettingsActivity.this, SignInActivity.class);
-                                    SettingsActivity.this.startActivity(intent);
+
+
+
+
 
                                 }
                             }

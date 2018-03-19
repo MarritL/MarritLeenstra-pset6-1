@@ -181,12 +181,16 @@ public class MainActivity extends FragmentActivity {
                     mUser = dataSnapshot.child("users").child(mUid).getValue(User.class);
 
                     // display displayName in the bottomNavigation
-                    String mDisplayname = mUser.getDisplayName();
-                    navigation.getMenu().findItem(R.id.navigation_user).setTitle(mDisplayname);
+                    // check again if user is not null (evoked error when user unsubscribed)
+                    if(mUser != null) {
+                        String mDisplayname = mUser.getDisplayName();
+                        navigation.getMenu().findItem(R.id.navigation_user).setTitle(mDisplayname);
 
-                    // on launch the hometab is opened (initiated here, because needs the user data)
-                    if(savedInstanceState==null) {
-                        navigation.setSelectedItemId(R.id.navigation_home);
+
+                        // on launch the hometab is opened (initiated here, because needs the user data)
+                        if (savedInstanceState == null) {
+                            navigation.setSelectedItemId(R.id.navigation_home);
+                        }
                     }
 
                     // when data changed set all the community values to 0
