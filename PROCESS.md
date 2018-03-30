@@ -10,3 +10,8 @@ Marrit Leenstra
   * Problem: PERMISSION DENIED error when trying to delete data from database
     * Reason: User was already deleted from authentication before deleting from database 
     * Solution: First delete data from database and then the user from authentication
+
+# 30-3-2018
+* Working on API request from Yummly
+  * Problem: don't know how to get the result back from my helperclass in fragement 
+
