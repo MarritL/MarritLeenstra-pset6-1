@@ -11,8 +11,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class RecipesHelper implements Response.Listener<JSONObject>, Response.ErrorListener{
@@ -64,6 +66,34 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
     public void onResponse(JSONObject response) {
 
         System.out.println(TAG + " response: " + response);
+
+        ArrayList<Recipe> recipesArrayList = new ArrayList<>();
+
+        // get the recipes
+        try {
+            JSONArray matches = response.getJSONArray("matches");
+            System.out.println("matches :" + matches);
+
+            for (int i = 0; i < matches.length(); i++) {
+                ArrayList<String> imagesArray = new ArrayList<>();
+                JSONObject object = matches.getJSONObject(i);
+                String name = object.getString("recipeName");
+                Double rating = object.getDouble("rating");
+                JSONArray images =  object.getJSONArray("smallImageUrls");
+
+                for (int j = 0; j < images.length(); j++) {
+                    imagesArray.add(images.getString(j));
+                }
+
+                Recipe recipe = new Recipe(name, rating, imagesArray);
+                recipesArrayList.add(recipe);
+            }
+        } catch (JSONException e) {
+            System.out.println("JSONException: " + e.getMessage());
+
+        }
+
+        mCallback.gotRecipes(recipesArrayList);
 
     }
 

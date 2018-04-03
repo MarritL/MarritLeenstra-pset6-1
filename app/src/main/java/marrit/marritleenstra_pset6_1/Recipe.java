@@ -1,19 +1,21 @@
 package marrit.marritleenstra_pset6_1;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Recipe {
 
     private String mRecipeName;
     private Double mRating;
-    private String mSource;
-    private Array[] mImages;
+    //private String mSource;
+    private ArrayList<String> mImages;
 
     // constructor
-    Recipe(String name, Double rating, String source, Array[] images ){
+    //Recipe(String name, Double rating, String source, Array[] images ){
+        Recipe(String name, Double rating, ArrayList<String> images){
         this.mRecipeName = name;
         this.mRating = rating;
-        this.mSource = source;
+        //this.mSource = source;
         this.mImages = images;
     }
 
@@ -34,19 +36,19 @@ public class Recipe {
         mRating = rating;
     }
 
-    public String getSource() {
+    /*public String getSource() {
         return mSource;
     }
 
     public void setSource(String source) {
         mSource = source;
-    }
+    }*/
 
-    public Array[] getImages() {
+    public ArrayList<String> getImages() {
         return mImages;
     }
 
-    public void setImages(Array[] images) {
+    public void setImages(ArrayList<String> images) {
         mImages = images;
     }
 }
