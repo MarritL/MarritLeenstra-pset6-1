@@ -19,6 +19,11 @@ Marrit Leenstra
 * Working on API request from Yummly
   * Problem: don't know how to get the result back from my helperclass in fragement 
      * Solution: Not Callback but FragmentCallback.....
+* Working on downloading the pictures that get back from the API request
+  * Problem: couldn't connect to url via: (InputStream) new URL(url).getContent();
+     * Solution: Looked on the internet for a library that downloads the pictures for me.
+       Using now the picasso library: http://square.github.io/picasso/ 
+       Works perfectly.
      
 
 
