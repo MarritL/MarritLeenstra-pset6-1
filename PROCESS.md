@@ -15,3 +15,10 @@ Marrit Leenstra
 * Working on API request from Yummly
   * Problem: don't know how to get the result back from my helperclass in fragement 
 
+# 3-4-2018
+* Working on API request from Yummly
+  * Problem: don't know how to get the result back from my helperclass in fragement 
+     * Solution: Not Callback but FragmentCallback.....
+     
+
+
