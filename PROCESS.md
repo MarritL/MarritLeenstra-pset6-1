@@ -33,7 +33,8 @@ Marrit Leenstra
 4. Get a new receipt (or receipts?) from YUMMLY for the new day (in the night)
 * So i have 4 task at two different times: one at ca 19.00 and three in the night
   * Problem: which schedulers should i use for these tasks?
-     * Solution: I looked up some info about schedulers on internet. (i.e. https://developer.android.com/training/scheduling/alarms.html and
+     * Solution: I looked up some info about schedulers on internet. (i.e. https://developer.android.com/training/scheduling/alarms.html,
+       https://stackoverflow.com/questions/23808434/android-gcm-vs-alarms-for-notifications and
        https://www.bignerdranch.com/blog/choosing-the-right-background-scheduler-in-android/). Basically AlarmManager from Android is 
        recommanded for operations that do not need networking and at inexact time (so number 1 of my tasks and possibly number 2 and 3).
        However networking is better via JobScheduler or GCM Network Manager, because it is less exact and therefor better for the user
