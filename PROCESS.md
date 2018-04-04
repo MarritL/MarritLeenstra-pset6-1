@@ -43,6 +43,7 @@ Marrit Leenstra
      * Update: when i wanted to start implementing the GCM I read that Firebase Cloud Messaging (FCM) is the new version of GCM and it 
        is strongly recommanded to use the Firebase JobDispatcher instead. So after reading the documentation: 
        https://github.com/firebase/firebase-jobdispatcher-android#user-content-firebase-jobdispatcher- This looks like the best choice.
+   * Problem: with the Firebase JobDispatcher you can't set an initial time at all. 
        
      
 
