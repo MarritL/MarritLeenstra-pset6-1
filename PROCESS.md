@@ -40,6 +40,10 @@ Marrit Leenstra
        However networking is better via JobScheduler or GCM Network Manager, because it is less exact and therefor better for the user
        (battery life). JobScheduler needs API level 21 or higher and my app has minimum 18, so i am going to try the GCM Network Manager. 
        Since task 2, 3 and 4 can be performed at the same time, i am going to try to implement them all in the same alarm.
+     * Update: when i wanted to start implementing the GCM I read that Firebase Cloud Messaging (FCM) is the new version of GCM and it 
+       is strongly recommanded to use the Firebase JobDispatcher instead. So after reading the documentation: 
+       https://github.com/firebase/firebase-jobdispatcher-android#user-content-firebase-jobdispatcher- This looks like the best choice.
+       
      
 
 
