@@ -56,11 +56,15 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
         // create new queue
         RequestQueue recipesQueue = Volley.newRequestQueue(mContext);
 
+        // url to download all ingrediets:
+        //"http://api.yummly.com/v1/api/metadata/ingredient?_app_id=12ae1b10&_app_key=358842bcce6b938ba3d887ccba20a6a1"
+
         // create url
         String APIkey = "358842bcce6b938ba3d887ccba20a6a1";
         String APIid = "12ae1b10";
         String mUrl = "http://api.yummly.com/v1/api/recipes?_app_id=" + APIid + "&_app_key="
-                + APIkey + "&allowedDiet[]=388^Lacto vegetarian&requirePictures=true";
+                + APIkey + "&allowedDiet[]=388^Lacto vegetarian&requirePictures=true&maxResults=" +
+                "30&allowedIngredient[]=garlic";
 
         // create JSON array request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(

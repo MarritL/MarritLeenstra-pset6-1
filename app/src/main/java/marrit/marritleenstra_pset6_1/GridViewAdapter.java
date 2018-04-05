@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class GridViewAdapter extends ArrayAdapter {
@@ -69,9 +71,17 @@ public class GridViewAdapter extends ArrayAdapter {
             TextView TVTitle = (TextView) v.findViewById(R.id.TV_grid_item_title);
             TextView TVSource = (TextView) v.findViewById(R.id.TV_grid_item_source);
 
-            // set components
+            // set text components
             TVTitle.setText(i.getRecipeName());
             TVSource.setText(i.getRating().toString());
+
+            // set image component with Picasso
+            String mImageURL = i.getImages().get(0);
+            Picasso.with(getContext())
+                    .load(mImageURL)
+                    .resize(400,400)
+                    .centerInside()
+                    .into(IVimageView);
         }
 
         return v;
