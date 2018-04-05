@@ -44,6 +44,11 @@ Marrit Leenstra
        is strongly recommanded to use the Firebase JobDispatcher instead. So after reading the documentation: 
        https://github.com/firebase/firebase-jobdispatcher-android#user-content-firebase-jobdispatcher- This looks like the best choice.
    * Problem: with the Firebase JobDispatcher you can't set an initial time at all. 
+   
+# 5-4-2018
+* Going on with problem of yesterday
+  * Problem: with the Firebase JobDispatcher you can't set an initial time at all. 
+     * Solution: back to the AlarmManager. Since i want to download only a small amount of data and only once a day, i think it won't be a too big restraint on the battery. I really want the app to update it's content in the nighttime.
        
      
 
