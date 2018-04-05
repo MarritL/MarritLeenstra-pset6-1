@@ -54,6 +54,9 @@ Marrit Leenstra
      * Solution: so far in the saved preferences, this way they will be persistent and can be updated every night
   * Problem: How are the recipes going to be displayed?
      * I am considering cards or gridlist. Gridlist is a little simpler design with less text, every grid should be comparable. Whereas cards can be expandble and contain more action options and are typically less homogeneous. I want to display a picture of the recipe with the name and rating. However, the use of the yummly api requires to display the source name and a link to the source. Since the recipes are pretty homogeneous i will choose gridlist.
+* Images are now loading in the gridview
+  * Problem: The pictures of the recipes are very small. I thought to display one recipe along the whole width of a phone in portrait mode, but the pictures are too small. Considering another way of downloading the recipes from yummly (one-per-one, with option of bigger images).
+  
        
      
 
