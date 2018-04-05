@@ -35,6 +35,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // todo: reauthenticate is logged out when clicked on notification
+
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(context)

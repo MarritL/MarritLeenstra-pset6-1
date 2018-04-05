@@ -18,6 +18,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static android.R.attr.data;
 import static android.R.attr.value;
@@ -158,8 +166,6 @@ public class MainActivity extends FragmentActivity {
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
-
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -234,30 +240,41 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-        // run recurring alarm
+        // run recurring alarms
         System.out.println("mAlarmOn1 =" + mAlarmOn);
         if (!mAlarmOn) {
-            setRecurringAlarm(MainActivity.this);
+            setRecurringAlarm(MainActivity.this, 9, 18, AlarmReceiver.class);
+            setRecurringAlarm(this, 9, 19, MyNightJobs.class);
             mAlarmOn = true;
             System.out.println("mAlarmOn2 =" + mAlarmOn);
         }
+
+
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("SAVED", false);
+        editor.commit();
+
 
     }
 
 
     // schedule daily alarm
-    private void setRecurringAlarm(Context context) {
+    private void setRecurringAlarm(Context context, int hour, int minute, Class clss) {
 
         // set the alarm at approximately 21 o'clock
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         System.out.println(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
-        calendar.set(Calendar.MINUTE, 00);
+        /*calendar.set(Calendar.HOUR_OF_DAY, 13);
+        calendar.set(Calendar.MINUTE, 35);*/
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
         Log.d("DEBUG", "alarm was set at" + calendar.getTimeInMillis());
 
         // set action
-        Intent intent = new Intent(context, AlarmReceiver.class);
+//        Intent intent = new Intent(context, AlarmReceiver.class);
+        Intent intent = new Intent(context, clss);
         PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // set repeating interval
@@ -265,6 +282,65 @@ public class MainActivity extends FragmentActivity {
         alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingAlarmIntent);
     }
+
+    /*// schedule second alarm for nightjobs
+    private void setNightAlarm(Context context, Class classe) {
+
+        // set the alarm at approximately 3 AM
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 3);
+        calendar.set(Calendar.MINUTE, 00);
+        Log.d("DEBUG", "alarm was set at" + calendar.getTimeInMillis());
+
+        // set action
+        Intent intent = new Intent(context, classe);
+        new Intent()
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // set repeating interval
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+
+    }*/
+
+
+    /*// Schedule recurring jobs from the MyNightJobs class (every 24h)
+    private void setNightJobs(Context context) {
+
+        // Create a new dispatcher using the Google Play driver.
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+
+        Job myJob = dispatcher.newJobBuilder()
+                // the JobService that will be called
+                .setService(MyNightJobs.class)
+                // uniquely identifies the job
+                .setTag("my-night-jobs")
+                // one-off job
+                .setRecurring(true)
+                // persist even after a device reboot
+                .setLifetime(Lifetime.FOREVER)
+                // start between 24h and 25 hour from now
+                .setTrigger(Trigger.executionWindow((int) TimeUnit.HOURS.toSeconds(24),
+                        (int) TimeUnit.HOURS.toSeconds(1)))
+                .setTrigger(Trigger.executionWindow(0,60)) //temporary
+                // don't overwrite an existing job with the same tag
+                .setReplaceCurrent(false)
+                // retry with exponential backoff
+                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                // constraints that need to be satisfied for the job to run
+                .setConstraints(
+                        // run on every network
+                        Constraint.ON_ANY_NETWORK
+                )
+                .build();
+
+        dispatcher.mustSchedule(myJob);
+    }*/
 
 
 
@@ -289,5 +365,24 @@ public class MainActivity extends FragmentActivity {
     }
 
     //TODO: if app not used for one day, runstreak should go to 0 (automatic a no)
+
+
+    /*Store Arraylist Using Shared Preferences:
+    https://stackoverflow.com/questions/22984696/storing-array-list-object-in-sharedpreferences
+
+    SharedPreferences prefs=this.getSharedPreferences("yourPrefsKey",Context.MODE_PRIVATE);
+    Editor edit=prefs.edit();
+
+    Set<String> set = new HashSet<String>();
+    set.addAll(your Arraylist Name);
+    edit.putStringSet("yourKey", set);
+    edit.commit();
+
+    Retrieve Arraylist from Shared Preferences
+
+    Set<String> set = prefs.getStringSet("yourKey", null);
+    List<String> sample=new ArrayList<String>(set);*/
+
+
 
 }
