@@ -49,6 +49,11 @@ Marrit Leenstra
 * Going on with problem of yesterday
   * Problem: with the Firebase JobDispatcher you can't set an initial time at all. 
      * Solution: back to the AlarmManager. Since i want to download only a small amount of data and only once a day, i think it won't be a too big restraint on the battery. I really want the app to update it's content in the nighttime.
+* Once the receipts are downloaded (in the night), they need to be displayed in the hometab.
+  * Problem: where are the recipes going to be saved?
+     * Solution: so far in the saved preferences, this way they will be persistent and can be updated every night
+  * Problem: How are the recipes going to be displayed?
+     * I am considering cards or gridlist. Gridlist is a little simpler design with less text, every grid should be comparable. Whereas cards can be expandble and contain more action options and are typically less homogeneous. I want to display a picture of the recipe with the name and rating. However, the use of the yummly api requires to display the source name and a link to the source. Since the recipes are pretty homogeneous i will choose gridlist.
        
      
 
