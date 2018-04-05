@@ -19,8 +19,13 @@ import java.util.ArrayList;
 
 public class RecipesHelper implements Response.Listener<JSONObject>, Response.ErrorListener{
 
-    public interface FragmentCallback {
+    /*public interface FragmentCallback {
         void gotRecipes(ArrayList<Recipe> recipesArrayList);
+        void gotError(String message);
+    }*/
+
+    public interface Callback {
+        void gotRecipes(ArrayList<Recipe> recipesArrayList, Context mContext);
         void gotError(String message);
     }
 
@@ -28,7 +33,8 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
 
     // declare variables
     private final Context mContext;
-    private FragmentCallback mCallback;
+    //private FragmentCallback mCallback;
+    private Callback mCallback;
     private final String TAG = "RECIPESHELPER";
 
     // constructor
@@ -43,7 +49,8 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
     }*/
 
     // request recipes from yummly API
-    void getRecipes(FragmentCallback activity) {
+//    void getRecipes(FragmentCallback activity) {
+    void getRecipes(Callback activity) {
         mCallback = activity;
 
         // create new queue
@@ -93,7 +100,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
 
         }
 
-        mCallback.gotRecipes(recipesArrayList);
+        mCallback.gotRecipes(recipesArrayList, mContext);
 
     }
 

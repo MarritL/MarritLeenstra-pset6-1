@@ -220,14 +220,7 @@ public class MainActivity extends FragmentActivity {
                         mSumAnimals = mSumAnimals + AnimalsCommunityUser;
                         mSumCO2 = mSumCO2 + CO2CommunityUser;
                         mSumParticipants += 1;
-
-                        System.out.println("sumAnimals is: " + mSumAnimals);
-                        System.out.println("sumCO2 is: " + mSumCO2);
-                        System.out.println("sumParticipants is: " + mSumParticipants);
-                        System.out.println("sumDays is: " + mSumDays);
-                        
                     }
-
                 }
 
                 @Override
@@ -243,8 +236,8 @@ public class MainActivity extends FragmentActivity {
         // run recurring alarms
         System.out.println("mAlarmOn1 =" + mAlarmOn);
         if (!mAlarmOn) {
-            setRecurringAlarm(MainActivity.this, 9, 18, AlarmReceiver.class);
-            setRecurringAlarm(this, 9, 19, MyNightJobs.class);
+            setRecurringAlarm(MainActivity.this, 10, 30, AlarmReceiver.class);
+            setRecurringAlarm(this, 10, 28, MyNightJobs.class);
             mAlarmOn = true;
             System.out.println("mAlarmOn2 =" + mAlarmOn);
         }
@@ -259,22 +252,19 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    // schedule daily alarm
-    private void setRecurringAlarm(Context context, int hour, int minute, Class clss) {
+    // schedule daily alarms
+    private void setRecurringAlarm(Context context, int hour, int minute, Class receiver) {
 
-        // set the alarm at approximately 21 o'clock
+        // set the alarm at given time
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         System.out.println(System.currentTimeMillis());
-        /*calendar.set(Calendar.HOUR_OF_DAY, 13);
-        calendar.set(Calendar.MINUTE, 35);*/
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         Log.d("DEBUG", "alarm was set at" + calendar.getTimeInMillis());
 
         // set action
-//        Intent intent = new Intent(context, AlarmReceiver.class);
-        Intent intent = new Intent(context, clss);
+        Intent intent = new Intent(context, receiver);
         PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // set repeating interval
@@ -283,30 +273,6 @@ public class MainActivity extends FragmentActivity {
                 AlarmManager.INTERVAL_DAY, pendingAlarmIntent);
     }
 
-    /*// schedule second alarm for nightjobs
-    private void setNightAlarm(Context context, Class classe) {
-
-        // set the alarm at approximately 3 AM
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        System.out.println(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 3);
-        calendar.set(Calendar.MINUTE, 00);
-        Log.d("DEBUG", "alarm was set at" + calendar.getTimeInMillis());
-
-        // set action
-        Intent intent = new Intent(context, classe);
-        new Intent()
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // set repeating interval
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
-
-
-
-    }*/
 
 
     /*// Schedule recurring jobs from the MyNightJobs class (every 24h)
