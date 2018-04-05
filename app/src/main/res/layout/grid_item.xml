@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="90dp"
+    android:layout_height="90dp">
+    
+    <ImageView
+        android:id="@+id/IV_grid_item"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:src="@drawable/ic_settings_old"/>
+
+    <TextView
+        android:id="@+id/TV_grid_item_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/IV_grid_item"
+        android:layout_marginBottom="6dp"
+        android:text="yummly.com"
+        android:textSize="8sp"/>
+
+    <TextView
+        android:id="@+id/TV_grid_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_above="@id/TV_grid_item_source"
+        android:text="Chicken, Broccoli and Pasta Skilled Casserole "
+        android:textSize= "8sp"/>
+
+</RelativeLayout>

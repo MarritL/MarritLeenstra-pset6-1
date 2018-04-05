@@ -237,7 +237,7 @@ public class MainActivity extends FragmentActivity {
         System.out.println("mAlarmOn1 =" + mAlarmOn);
         if (!mAlarmOn) {
             setRecurringAlarm(MainActivity.this, 10, 30, AlarmReceiver.class);
-            setRecurringAlarm(this, 10, 28, MyNightJobs.class);
+            setRecurringAlarm(this, 14, 38, MyNightJobs.class);
             mAlarmOn = true;
             System.out.println("mAlarmOn2 =" + mAlarmOn);
         }
