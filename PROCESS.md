@@ -63,6 +63,11 @@ Marrit Leenstra
   * Problem: When the user logs out, the shared preferences are lost and therefor the recipes are lost
      * Solution: saving the recipes in the firebase database (on the users account).
        I saved the listarray as a string (by using the Gson library), because it works good and easier than parcebles. 
+* Working on dispalying recipes also when the user logs in for the first time
+  * Problem: alarm to start downloading recipes is set for the night, so when the first launch is before, nothing is downloaded yet.
+     * Solution: On first launch also downlaod recipes (at the same place as the alarms or set).
+     
+     
   
        
      
