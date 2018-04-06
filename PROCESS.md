@@ -57,6 +57,12 @@ Marrit Leenstra
 * Images are now loading in the gridview
   * Problem: The pictures of the recipes are very small. I thought to display one recipe along the whole width of a phone in portrait mode, but the pictures are too small. Considering another way of downloading the recipes from yummly (one-per-one, with option of bigger images).
      * Solution: I stick to the gridView, because i think that is the right choice for homegeneous data (according to the design guide). I display now more recipes on the homepage, which might actually be also nicer.
+     
+# 6-4-2018
+* Working on displaying recipes when user logs out and logs in again
+  * Problem: When the user logs out, the shared preferences are lost and therefor the recipes are lost
+     * Solution: saving the recipes in the firebase database (on the users account).
+       I saved the listarray as a string (by using the Gson library), because it works good and easier than parcebles. 
   
        
      
