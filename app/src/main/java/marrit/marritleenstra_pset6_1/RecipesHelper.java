@@ -24,22 +24,13 @@ import java.util.Scanner;
 
 public class RecipesHelper implements Response.Listener<JSONObject>, Response.ErrorListener{
 
-    /*public interface FragmentCallback {
-        void gotRecipes(ArrayList<Recipe> recipesArrayList);
-        void gotError(String message);
-    }*/
-
     public interface Callback {
         void gotRecipes(ArrayList<Recipe> recipesArrayList, Context mContext);
-        //void gotIngredients(Context mContext);
         void gotError(String message);
     }
 
-
-
     // declare variables
     private final Context mContext;
-    //private FragmentCallback mCallback;
     private Callback mCallback;
     private final String TAG = "RECIPESHELPER";
     private final String APIkey = "358842bcce6b938ba3d887ccba20a6a1";
@@ -51,14 +42,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
         mContext = context;
     }
 
-    // constructor
-    /*public RecipesHelper(FragmentCallback fragmentCallback, Context context) {
-        mCallback = fragmentCallback;
-        mContext = context;
-    }*/
-
     // request recipes from yummly API
-//    void getRecipes(FragmentCallback activity) {
     void getRecipes(Callback activity) {
         mCallback = activity;
 
@@ -67,9 +51,6 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
 
         // create new queue
         RequestQueue recipesQueue = Volley.newRequestQueue(mContext);
-
-        // url to download all ingrediets:
-        //"http://api.yummly.com/v1/api/metadata/ingredient?_app_id=12ae1b10&_app_key=358842bcce6b938ba3d887ccba20a6a1"
 
         // get random ingredients
         String ingredient1 = getRandomIngredient();
@@ -125,82 +106,31 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
     @Override
     public void onErrorResponse(VolleyError error) {
         mCallback.gotError(error.getMessage());
-
     }
 
-    /*void getIngredients(Callback activity) {
-
-        mCallback = activity;
-
-        // create new queue
-        RequestQueue ingredientsQueue = Volley.newRequestQueue(mContext);
-
-        // url to download all ingrediets:
-        //"12ae1b10&_app_key=358842bcce6b938ba3d887ccba20a6a1"
-
-        // create url
-
-        String mUrl = "http://api.yummly.com/v1/api/metadata/ingredient?_app_id=" + APIid + "&_app_key="
-                + APIkey;
-
-        // create JSON array request
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                mUrl, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                System.out.println("RECIPEACTIVITY ingredients: " + response);
-                mCallback.gotIngredients(mContext);
-
-            }
-        }, this);
-
-        ingredientsQueue.add(jsonObjectRequest);
-
-    }*/
-
-    // method to get a random ingredient from a list of ingredients
-    //private String getIngredients() {
+    // method to fill the list of ingredients
         private void getIngredientList() {
 
         try {
-            //ArrayList<String> ingredients = new ArrayList<>();
-            //ingredients = read(mContext.getAssets().open("ingredients.txt"));
             read(mContext.getAssets().open("ingredients.txt"));
             System.out.println("MAINACTIVITY ingredients: " + ingredients);
-
-            /*//get three random ingredients from the ingredients list
-            // get a random number
-            Random rand = new Random();
-            int i = rand.nextInt(ingredients.size());
-            String ingredient = ingredients.get(i);
-
-            return ingredient;*/
-
         } catch (IOException e) {
             Log.e(TAG, e.getClass().getName());
         }
-
-        // if something went wrong return default ingredient "egg"
-        //return "egg";
     }
 
-
-
-    //public ArrayList<String> read(InputStream stream) {
+    // method to read ingredients from assets file
     public void read(InputStream stream) {
 
         Scanner scanner = new Scanner(stream).useDelimiter(",");
-
-        //ArrayList<String> ingredients = new ArrayList<>();
 
         while (scanner.hasNext()) {
             ingredients.add(scanner.next());
         }
 
-        //return ingredients;
     }
 
+    // get a random ingredient from the list of ingredients
     public String getRandomIngredient() {
         //get three random ingredients from the ingredients list
         // get a random number

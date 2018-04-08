@@ -194,13 +194,6 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                     // get current user data
                     mUser = dataSnapshot.child("users").child(mUid).getValue(User.class);
 
-
-                    //GenericTypeIndicator<ArrayList<Recipe>> genericTypeIndicator =new GenericTypeIndicator<ArrayList<Recipe>>(){};
-
-                    //recipes = dataSnapshot.child("users").child(mUid).child("recipes").getValue(genericTypeIndicator);
-                    // System.out.println("MAINACTIVITY recipes: " + recipes);
-
-
                     // display displayName in the bottomNavigation
                     // check again if user is not null (evoked error when user unsubscribed)
                     if (mUser != null) {
@@ -255,7 +248,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
         System.out.println("mFirstLaunchDone1 =" + mOnLaunchDone);
         if (!mOnLaunchDone) {
             setRecurringAlarm(MainActivity.this, 19, 01, AlarmReceiver.class);
-            setRecurringAlarm(this, 03, 01, MyNightJobs.class);
+            setRecurringAlarm(this, 19, 15, MyNightJobs.class);
 
             /*// First download of recipes
             RecipesHelper recipesHelper = new RecipesHelper(this);

@@ -19,6 +19,7 @@ public class User implements Serializable {
     private double mCO2Avoided;
     private double mAnimalsSaved;
     private String mRecipes;
+    private Boolean mClickedToday;
 
     // default constructor for FireBase
     public User() {}
@@ -33,18 +34,7 @@ public class User implements Serializable {
         mAnimalsSaved = 0.0;
         mCO2Avoided = 0.0;
         mRecipes = "";
-    }
-
-    // constructor
-    public User(String UID, String email, String displayName, ArrayList<Recipe> recipeArrayList) {
-        mUID = UID;
-        mEmail = email;
-        mDisplayName = displayName;
-        mRunStreak = 0;
-        mDaysVegetarian = 0;
-        mAnimalsSaved = 0.0;
-        mCO2Avoided = 0.0;
-        mRecipes = recipeArrayList.toString();
+        mClickedToday = false;
     }
 
     // getters and setters
@@ -110,5 +100,13 @@ public class User implements Serializable {
 
     public void setRecipes(String recipes) {
         mRecipes = recipes;
+    }
+
+    public Boolean getClickedToday() {
+        return mClickedToday;
+    }
+
+    public void setClickedToday(Boolean clickedToday) {
+        mClickedToday = clickedToday;
     }
 }

@@ -8,8 +8,11 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -18,20 +21,47 @@ import java.util.ArrayList;
 
 import static marrit.marritleenstra_pset6_1.MainActivity.PREFS_NAME;
 
-//public class MyNightJobs extends JobService implements RecipesHelper.FragmentCallback {
-    public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Callback {
+public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Callback {
 
-        // variables
+    // variables
+    private final static String TAG = "MYNIGHTJOBS";
 
+    static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    static FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         Log.d("MYNIGHTJOBS", "alarm received");
 
+        // get user data from database
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // get current user data
+                User user = dataSnapshot.child("users").child(mUser.getUid()).getValue(User.class);
+
+                // if user didn't say whether he ate vegetarian or not, consider as a NO
+                if (!user.getClickedToday()) {
+                    mDatabase.child("users").child(user.getUID()).child("runStreak").setValue(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", databaseError.toException());
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(listener);
+
+        // request new recipes from yummly api
         RecipesHelper recipesHelper = new RecipesHelper(context);
         recipesHelper.getRecipes(this);
 
+        // when everything is done, set clickedToday to false again
+        mDatabase.child("users").child(mUser.getUid()).child("clickedToday").setValue(false);
     }
 
     @Override
@@ -50,9 +80,6 @@ import static marrit.marritleenstra_pset6_1.MainActivity.PREFS_NAME;
     }
 
 
-
-
-
     // save ArrayList of recipes to the database
     public static void saveToDatabase(ArrayList<Recipe> recipesArrayList) {
 
@@ -60,8 +87,8 @@ import static marrit.marritleenstra_pset6_1.MainActivity.PREFS_NAME;
         String jsonRecipes = gson.toJson(recipesArrayList);
 
         // save in database
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        //FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (mUser != null) {
         mDatabase.child("users").child(mUser.getUid()).child("recipes").setValue(jsonRecipes);
