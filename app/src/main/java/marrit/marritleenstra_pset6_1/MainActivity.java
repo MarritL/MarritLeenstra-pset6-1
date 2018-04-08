@@ -31,16 +31,22 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import static android.R.attr.data;
 import static android.R.attr.value;
+import static marrit.marritleenstra_pset6_1.MyNightJobs.saveToDatabase;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements RecipesHelper.Callback {
 
     // firebase references
     public FirebaseAuth mAuth;
@@ -54,13 +60,14 @@ public class MainActivity extends FragmentActivity {
 
     // variables
     public User mUser;
-    boolean mAlarmOn;
+    boolean mOnLaunchDone;
     public static final String PREFS_NAME = "MyPrefsFile";
     int mSumDays;
     double mSumAnimals;
     double mSumCO2;
     int mSumParticipantsToday;
     int mSumParticipants;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,6 +84,7 @@ public class MainActivity extends FragmentActivity {
                     Log.d(TAG, "to fragment id:" + mUser.getUID());
                     data.putString("USER", mUser.getUID());
                     data.putSerializable("USERDATA", mUser);
+                    //data.putSerializable("RECIPE", recipes);
                     homeFragment.setArguments(data);
 
                     // add the fragment to the 'fragment_container' framelayout
@@ -108,7 +116,7 @@ public class MainActivity extends FragmentActivity {
                 case R.id.navigation_community:
                     // create new fragment
                     CommunityFragment communityFragment = new CommunityFragment();
-                    
+
                     //TODO: put all sum data in
                     // add community data
                     Bundle dataCommunity = new Bundle();
@@ -159,8 +167,8 @@ public class MainActivity extends FragmentActivity {
 
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        mAlarmOn = settings.getBoolean("ALARMON", false);
-        System.out.println("mAlarmOn3 = " + mAlarmOn);
+        mOnLaunchDone = settings.getBoolean("FIRSTLAUNCHDONE", false);
+        System.out.println("mFirstLauncheDone3 = " + mOnLaunchDone);
 
         // initialise bottom navigation tabs
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -186,10 +194,20 @@ public class MainActivity extends FragmentActivity {
                     // get current user data
                     mUser = dataSnapshot.child("users").child(mUid).getValue(User.class);
 
+
+                    //GenericTypeIndicator<ArrayList<Recipe>> genericTypeIndicator =new GenericTypeIndicator<ArrayList<Recipe>>(){};
+
+                    //recipes = dataSnapshot.child("users").child(mUid).child("recipes").getValue(genericTypeIndicator);
+                    // System.out.println("MAINACTIVITY recipes: " + recipes);
+
+
                     // display displayName in the bottomNavigation
                     // check again if user is not null (evoked error when user unsubscribed)
-                    if(mUser != null) {
+                    if (mUser != null) {
                         String mDisplayname = mUser.getDisplayName();
+                        String recipes = mUser.getRecipes();
+                        int runstreak = mUser.getRunStreak();
+                        System.out.println("MAINACTIVITY recipes + runstreak: " + recipes + "+" + runstreak);
                         navigation.getMenu().findItem(R.id.navigation_user).setTitle(mDisplayname);
 
 
@@ -207,7 +225,7 @@ public class MainActivity extends FragmentActivity {
                     mSumParticipants = 0;
 
                     // set the community values
-                    for (DataSnapshot ds:dataSnapshot.child("users").getChildren()) {
+                    for (DataSnapshot ds : dataSnapshot.child("users").getChildren()) {
 
                         //TODO: finish all values (not only ints!)
                         // get values of all users in database
@@ -233,13 +251,17 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-        // run recurring alarms
-        System.out.println("mAlarmOn1 =" + mAlarmOn);
-        if (!mAlarmOn) {
-            setRecurringAlarm(MainActivity.this, 10, 30, AlarmReceiver.class);
-            setRecurringAlarm(this, 15, 01, MyNightJobs.class);
-            mAlarmOn = true;
-            System.out.println("mAlarmOn2 =" + mAlarmOn);
+        // run everything that has to be done on first time launch
+        System.out.println("mFirstLaunchDone1 =" + mOnLaunchDone);
+        if (!mOnLaunchDone) {
+            setRecurringAlarm(MainActivity.this, 19, 01, AlarmReceiver.class);
+            setRecurringAlarm(this, 03, 01, MyNightJobs.class);
+
+            /*// First download of recipes
+            RecipesHelper recipesHelper = new RecipesHelper(this);
+            recipesHelper.getRecipes(this);*/
+            mOnLaunchDone = true;
+            System.out.println("mFirstLauncheDone2 =" + mOnLaunchDone);
         }
 
 
@@ -248,6 +270,7 @@ public class MainActivity extends FragmentActivity {
         editor.putBoolean("SAVED", false);
         editor.commit();
 
+        //getIngredients();
 
     }
 
@@ -274,51 +297,15 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-
-    /*// Schedule recurring jobs from the MyNightJobs class (every 24h)
-    private void setNightJobs(Context context) {
-
-        // Create a new dispatcher using the Google Play driver.
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
-        Job myJob = dispatcher.newJobBuilder()
-                // the JobService that will be called
-                .setService(MyNightJobs.class)
-                // uniquely identifies the job
-                .setTag("my-night-jobs")
-                // one-off job
-                .setRecurring(true)
-                // persist even after a device reboot
-                .setLifetime(Lifetime.FOREVER)
-                // start between 24h and 25 hour from now
-                .setTrigger(Trigger.executionWindow((int) TimeUnit.HOURS.toSeconds(24),
-                        (int) TimeUnit.HOURS.toSeconds(1)))
-                .setTrigger(Trigger.executionWindow(0,60)) //temporary
-                // don't overwrite an existing job with the same tag
-                .setReplaceCurrent(false)
-                // retry with exponential backoff
-                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                // constraints that need to be satisfied for the job to run
-                .setConstraints(
-                        // run on every network
-                        Constraint.ON_ANY_NETWORK
-                )
-                .build();
-
-        dispatcher.mustSchedule(myJob);
-    }*/
-
-
-
     // save preferences
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        System.out.println("mAlarmOn4 =" + mAlarmOn);
-        editor.putBoolean("ALARMON", mAlarmOn);
+        System.out.println("mFirstLaunchDone4 =" + mOnLaunchDone);
+        editor.putBoolean("FIRSTLAUNCHDONE", mOnLaunchDone);
         editor.commit();
 
     }
@@ -329,6 +316,23 @@ public class MainActivity extends FragmentActivity {
         savedInstanceState.putBoolean("ALREADYSTARTED", true);
         super.onSaveInstanceState(savedInstanceState);
     }
+
+    @Override
+    public void gotRecipes(ArrayList<Recipe> recipesArrayList, Context context) {
+
+        Log.d("MAINACTIVITY", "got recipes");
+        saveToDatabase(recipesArrayList);
+
+    }
+
+    @Override
+    public void gotError(String message) {
+
+        System.out.println("MAINACTIVITY gotERROR: " + message);
+
+    }
+
+
 
     //TODO: if app not used for one day, runstreak should go to 0 (automatic a no)
 
@@ -350,5 +354,5 @@ public class MainActivity extends FragmentActivity {
     List<String> sample=new ArrayList<String>(set);*/
 
 
-
 }
+

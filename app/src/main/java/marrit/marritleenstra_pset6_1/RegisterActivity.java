@@ -3,6 +3,7 @@ package marrit.marritleenstra_pset6_1;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -30,7 +31,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RegisterActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class RegisterActivity extends AppCompatActivity implements RecipesHelper.Callback {
 
     public FirebaseAuth mAuth;
     public FirebaseAuth.AuthStateListener mAuthListener;
@@ -104,6 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
 
     public class registerOnClick implements View.OnClickListener {
 
@@ -212,6 +216,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(RegisterActivity.this, R.string.auth_succes,
                                         Toast.LENGTH_SHORT).show();
 
+                                // First download of recipes
+                                RecipesHelper recipesHelper = new RecipesHelper(getApplicationContext());
+                                recipesHelper.getRecipes(RegisterActivity.this);
+
+                                // Download or ingredientslist
+                                //recipesHelper.getIngredients(RegisterActivity.this);
+
                                 // create user with UID, email and displayname
                                 String displayname = mDisplaynameView.getText().toString();
                                 //if user didn't give displayname use email
@@ -282,6 +293,24 @@ public class RegisterActivity extends AppCompatActivity {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    @Override
+    public void gotRecipes(ArrayList<Recipe> recipesArrayList, Context mContext) {
+
+        // add also recipes to user class
+        MyNightJobs.saveToDatabase(recipesArrayList);
+
+        /*Intent intent = new Intent(RegisterActivity.this, SignInActivity.class);
+        RegisterActivity.this.startActivity(intent);*/
+
+    }
+
+
+
+    @Override
+    public void gotError(String message) {
+
     }
 
 

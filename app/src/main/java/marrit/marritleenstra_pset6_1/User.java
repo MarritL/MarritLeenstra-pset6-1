@@ -2,6 +2,8 @@ package marrit.marritleenstra_pset6_1;
 
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by Marrit on 4-12-2017.
@@ -16,6 +18,7 @@ public class User implements Serializable {
     private int mDaysVegetarian;
     private double mCO2Avoided;
     private double mAnimalsSaved;
+    private String mRecipes;
 
     // default constructor for FireBase
     public User() {}
@@ -29,6 +32,19 @@ public class User implements Serializable {
         mDaysVegetarian = 0;
         mAnimalsSaved = 0.0;
         mCO2Avoided = 0.0;
+        mRecipes = "";
+    }
+
+    // constructor
+    public User(String UID, String email, String displayName, ArrayList<Recipe> recipeArrayList) {
+        mUID = UID;
+        mEmail = email;
+        mDisplayName = displayName;
+        mRunStreak = 0;
+        mDaysVegetarian = 0;
+        mAnimalsSaved = 0.0;
+        mCO2Avoided = 0.0;
+        mRecipes = recipeArrayList.toString();
     }
 
     // getters and setters
@@ -86,5 +102,13 @@ public class User implements Serializable {
 
     public void setCO2Avoided(double CO2Avoided) {
         mCO2Avoided = CO2Avoided;
+    }
+
+    public String getRecipes() {
+        return mRecipes;
+    }
+
+    public void setRecipes(String recipes) {
+        mRecipes = recipes;
     }
 }

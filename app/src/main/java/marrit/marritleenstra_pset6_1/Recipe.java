@@ -1,14 +1,18 @@
 package marrit.marritleenstra_pset6_1;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Recipe {
+public class Recipe implements Serializable {
 
     private String mRecipeName;
     private Double mRating;
     //private String mSource;
     private ArrayList<String> mImages;
+
+    // default constructor for FireBase
+    public Recipe() {}
 
     // constructor
     //Recipe(String name, Double rating, String source, Array[] images ){
