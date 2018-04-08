@@ -27,7 +27,7 @@ public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Call
     private final static String TAG = "MYNIGHTJOBS";
 
     static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    static FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -40,8 +40,6 @@ public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Call
         RecipesHelper recipesHelper = new RecipesHelper(context);
         recipesHelper.getRecipes(this);
 
-        // when everything is done, set clickedToday to false again
-        mDatabase.child("users").child(mUser.getUid()).child("clickedToday").setValue(false);
     }
 
     @Override
@@ -67,8 +65,8 @@ public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Call
         String jsonRecipes = gson.toJson(recipesArrayList);
 
         // save in database
-        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        //FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (mUser != null) {
         mDatabase.child("users").child(mUser.getUid()).child("recipes").setValue(jsonRecipes);
@@ -101,11 +99,18 @@ public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Call
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 // get current user data
-                User user = dataSnapshot.child("users").child(mUser.getUid()).getValue(User.class);
+                FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (mUser != null) {
+                    String uid = mUser.getUid();
+                    User user = dataSnapshot.child("users").child(mUser.getUid()).getValue(User.class);
 
-                // if user didn't say whether he ate vegetarian or not, consider as a NO
-                if (!user.getClickedToday()) {
-                    mDatabase.child("users").child(user.getUID()).child("runStreak").setValue(0);
+                    // if user didn't say whether he ate vegetarian or not, consider as a NO
+                    if (!user.getClickedToday()) {
+                        mDatabase.child("users").child(uid).child("runStreak").setValue(0);
+                    }
+
+                    // set clickedToday to false again
+                    mDatabase.child("users").child(uid).child("clickedToday").setValue(false);
                 }
             }
 
@@ -117,5 +122,7 @@ public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Call
         };
         mDatabase.addListenerForSingleValueEvent(listener);
     }
+
+
 
 }

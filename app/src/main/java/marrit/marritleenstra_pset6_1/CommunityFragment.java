@@ -61,11 +61,11 @@ public class CommunityFragment extends Fragment {
         User user = (User) getArguments().getSerializable("USERDATA");*/
 
         // get Community data
-
         int mSumDays = getArguments().getInt("DAYS");
         double mSumAnimals = getArguments().getDouble("ANIMALS");
         double mSumCO2 = getArguments().getDouble("CO2");
         int mSumParticipants = getArguments().getInt("PARTICIPANTS");
+        int mSumParticipantsToday = getArguments().getInt("TODAY");
 
         // initiate UI components
         mTotalDaysCommunity = (TextView) view.findViewById(R.id.TV_number_total_days_community);
@@ -83,6 +83,7 @@ public class CommunityFragment extends Fragment {
         mTotalAnimalsCommunity.setText(String.format("%.2f", mSumAnimals));
         mTotalCO2Community.setText(String.valueOf(mSumCO2));
         mTotalParticipants.setText(String.valueOf(mSumParticipants));
+        mTotalParticipantsToday.setText(String.valueOf(mSumParticipantsToday));
 
 
 

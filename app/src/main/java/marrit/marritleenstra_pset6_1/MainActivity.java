@@ -67,6 +67,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     double mSumCO2;
     int mSumParticipantsToday;
     int mSumParticipants;
+    //Boolean mClickedToday;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -124,6 +125,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                     dataCommunity.putInt("PARTICIPANTS", mSumParticipants);
                     dataCommunity.putDouble("CO2", mSumCO2);
                     dataCommunity.putDouble("ANIMALS", mSumAnimals);
+                    dataCommunity.putInt("TODAY", mSumParticipantsToday);
                     communityFragment.setArguments(dataCommunity);
 
                     // add the fragment to the 'fragment_container' framelayout
@@ -225,12 +227,16 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                         int DaysCommunityUser = Integer.valueOf(ds.child("daysVegetarian").getValue().toString());
                         double AnimalsCommunityUser = Double.valueOf(ds.child("animalsSaved").getValue().toString());
                         double CO2CommunityUser = Double.valueOf(ds.child("co2Avoided").getValue().toString());
+                        boolean mClickedToday = Boolean.valueOf(ds.child("clickedToday").getValue().toString());
 
                         // TODO: make sums!
                         mSumDays = mSumDays + DaysCommunityUser;
                         mSumAnimals = mSumAnimals + AnimalsCommunityUser;
                         mSumCO2 = mSumCO2 + CO2CommunityUser;
                         mSumParticipants += 1;
+                        if (mClickedToday){
+                            mSumParticipantsToday +=1;
+                        }
                     }
                 }
 
