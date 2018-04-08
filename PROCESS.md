@@ -76,6 +76,9 @@ Marrit Leenstra
   * Problem: recipes are too simular 
      * Solution: Make a requet with 2 ingredients (... OR ...) 
      * Update: OR doesn't work. At the moment i don't have a solution. Better 10 recipes with carrot then every time the same recipes.
+* Working on runstreak
+  * Problem: when a user doens't eat vegetarian he might not bother to click no in the app
+     * Solution: Add functionality to check if user clicked or not in one day, if not, consider as a "NO" and set runstreak to 0.
   
        
      
