@@ -65,11 +65,13 @@ Marrit Leenstra
        I saved the listarray as a string (by using the Gson library), because it works good and easier than parcebles. 
 * Working on dispalying recipes also when the user logs in for the first time
   * Problem: alarm to start downloading recipes is set for the night, so when the first launch is before, nothing is downloaded yet.
-     * Solution: On first launch also downlaod recipes (at the same place as the alarms or set).
+     * Solution: On first launch also downlaod recipes (at the same place as the alarms are set = MainActivity).
   * Problem: when another user logs in on the same phone the firstlaunch boolean is already true (not associated with account?), so the recipes are again not downloaded.
      * Solution: I moved the first time download to the register page. So when a user registers, the first recipes will be downloaded right away and put under his name in the firebase database.
      
-     
+# 8-4-2018
+  * Problem: recipes are always the same.
+     * Solution: Add a list of ingredients to assets folder (or database?) and choose everytime a random ingredient to add to the query.
   
        
      
