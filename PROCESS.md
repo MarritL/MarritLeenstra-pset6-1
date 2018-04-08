@@ -57,6 +57,25 @@ Marrit Leenstra
 * Images are now loading in the gridview
   * Problem: The pictures of the recipes are very small. I thought to display one recipe along the whole width of a phone in portrait mode, but the pictures are too small. Considering another way of downloading the recipes from yummly (one-per-one, with option of bigger images).
      * Solution: I stick to the gridView, because i think that is the right choice for homegeneous data (according to the design guide). I display now more recipes on the homepage, which might actually be also nicer.
+     
+# 6-4-2018
+* Working on displaying recipes when user logs out and logs in again
+  * Problem: When the user logs out, the shared preferences are lost and therefor the recipes are lost
+     * Solution: saving the recipes in the firebase database (on the users account).
+       I saved the listarray as a string (by using the Gson library), because it works good and easier than parcebles. 
+* Working on dispalying recipes also when the user logs in for the first time
+  * Problem: alarm to start downloading recipes is set for the night, so when the first launch is before, nothing is downloaded yet.
+     * Solution: On first launch also downlaod recipes (at the same place as the alarms are set = MainActivity).
+  * Problem: when another user logs in on the same phone the firstlaunch boolean is already true (not associated with account?), so the recipes are again not downloaded.
+     * Solution: I moved the first time download to the register page. So when a user registers, the first recipes will be downloaded right away and put under his name in the firebase database.
+     
+# 8-4-2018
+* Working on searching the recipes
+  * Problem: recipes are always the same.
+     * Solution: Add a list of ingredients to assets folder (or database?) and choose everytime a random ingredient to add to the query.
+  * Problem: recipes are too simular 
+     * Solution: Make a requet with 2 ingredients (... OR ...) 
+     * Update: OR doesn't work. At the moment i don't have a solution. Better 10 recipes with carrot then every time the same recipes.
   
        
      
