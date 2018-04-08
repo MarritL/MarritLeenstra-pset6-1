@@ -34,27 +34,7 @@ public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Call
 
         Log.d("MYNIGHTJOBS", "alarm received");
 
-        // get user data from database
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                // get current user data
-                User user = dataSnapshot.child("users").child(mUser.getUid()).getValue(User.class);
-
-                // if user didn't say whether he ate vegetarian or not, consider as a NO
-                if (!user.getClickedToday()) {
-                    mDatabase.child("users").child(user.getUID()).child("runStreak").setValue(0);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
-            }
-        };
-        mDatabase.addListenerForSingleValueEvent(listener);
+        updateRunstreak();
 
         // request new recipes from yummly api
         RecipesHelper recipesHelper = new RecipesHelper(context);
@@ -109,6 +89,33 @@ public class MyNightJobs extends BroadcastReceiver implements RecipesHelper.Call
             return mSavedRecipes;
         }
         return null;
+    }
+
+    // functionality to check if user clicked or not in that particular day, if not, consider as
+    // a "NO" and set runstreak to 0.
+    private void updateRunstreak(){
+
+        // get user data from database
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // get current user data
+                User user = dataSnapshot.child("users").child(mUser.getUid()).getValue(User.class);
+
+                // if user didn't say whether he ate vegetarian or not, consider as a NO
+                if (!user.getClickedToday()) {
+                    mDatabase.child("users").child(user.getUID()).child("runStreak").setValue(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", databaseError.toException());
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(listener);
     }
 
 }
