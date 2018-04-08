@@ -70,10 +70,12 @@ Marrit Leenstra
      * Solution: I moved the first time download to the register page. So when a user registers, the first recipes will be downloaded right away and put under his name in the firebase database.
      
 # 8-4-2018
+* Working on searching the recipes
   * Problem: recipes are always the same.
      * Solution: Add a list of ingredients to assets folder (or database?) and choose everytime a random ingredient to add to the query.
   * Problem: recipes are too simular 
-     * Solution: Make a requet with 2 ingredients (... OR ...)
+     * Solution: Make a requet with 2 ingredients (... OR ...) 
+     * Update: OR doesn't work. At the moment i don't have a solution. Better 10 recipes with carrot then every time the same recipes.
   
        
      
