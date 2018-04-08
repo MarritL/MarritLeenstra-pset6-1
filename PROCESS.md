@@ -72,6 +72,8 @@ Marrit Leenstra
 # 8-4-2018
   * Problem: recipes are always the same.
      * Solution: Add a list of ingredients to assets folder (or database?) and choose everytime a random ingredient to add to the query.
+  * Problem: recipes are too simular 
+     * Solution: Make a requet with 2 ingredients (... OR ...)
   
        
      
