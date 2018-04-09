@@ -33,6 +33,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import static marrit.marritleenstra_pset6_1.RecipeLab.safeToDatabase;
+
 public class RegisterActivity extends AppCompatActivity implements RecipesHelper.Callback {
 
     public FirebaseAuth mAuth;
@@ -299,7 +301,11 @@ public class RegisterActivity extends AppCompatActivity implements RecipesHelper
     public void gotRecipes(ArrayList<Recipe> recipesArrayList, Context mContext) {
 
         // add also recipes to user class
-        MyNightJobs.saveToDatabase(recipesArrayList);
+        RecipeLab recipeLab = RecipeLab.getInstance();
+        safeToDatabase(recipesArrayList);
+        recipeLab.fillRecipeArray();
+
+        //MyNightJobs.saveToDatabase(recipesArrayList);
 
         /*Intent intent = new Intent(RegisterActivity.this, SignInActivity.class);
         RegisterActivity.this.startActivity(intent);*/

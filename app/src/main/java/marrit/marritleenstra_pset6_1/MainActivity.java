@@ -62,6 +62,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     public User mUser;
     boolean mOnLaunchDone;
     public static final String PREFS_NAME = "MyPrefsFile";
+    //public static RecipeLab recipeLab = RecipeLab.getInstance();
     int mSumDays;
     double mSumAnimals;
     double mSumCO2;
@@ -93,7 +94,8 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
 
                     transaction.replace(R.id.fragment_container, homeFragment);
                     transaction.addToBackStack(null);
-                    transaction.commitAllowingStateLoss();
+                    //transaction.commit();
+                    transaction.commitAllowingStateLoss(); // delete account doen't work with normal .commit()
 
                     return true;
 
@@ -182,8 +184,12 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
         // Read from the database
         if (firebaseUser != null) {
 
-            final String mUid = firebaseUser.getUid();
+            // start RecipeLab
+            RecipeLab recipeLab = RecipeLab.getInstance();
+            recipeLab.fillRecipeArray();
 
+            // Read from the database
+            final String mUid = firebaseUser.getUid();
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
@@ -256,9 +262,6 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
             setRecurringAlarm(MainActivity.this, 19, 01, AlarmReceiver.class);
             setRecurringAlarm(this, 19, 15, MyNightJobs.class);
 
-            /*// First download of recipes
-            RecipesHelper recipesHelper = new RecipesHelper(this);
-            recipesHelper.getRecipes(this);*/
             mOnLaunchDone = true;
             System.out.println("mFirstLauncheDone2 =" + mOnLaunchDone);
         }
@@ -269,9 +272,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
         editor.putBoolean("SAVED", false);
         editor.commit();
 
-        //getIngredients();
-
-    }
+        }
 
 
     // schedule daily alarms
@@ -320,7 +321,10 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     public void gotRecipes(ArrayList<Recipe> recipesArrayList, Context context) {
 
         Log.d("MAINACTIVITY", "got recipes");
-        saveToDatabase(recipesArrayList);
+//        public static RecipeLab recipeLab = RecipeLab.getInstance();
+        RecipeLab recipeLab = RecipeLab.getInstance();
+        recipeLab.safeToDatabase(recipesArrayList);
+        //recipeLab.fillRecipeArray();
 
     }
 

@@ -136,6 +136,21 @@ public class HomeFragment extends Fragment {
         mYesButton.setOnClickListener(new TodayVegetarianClickListener());
         mNoButton.setOnClickListener(new TodayVegetarianClickListener());
 
+        // retrieve recipes
+        RecipeLab recipeLab = RecipeLab.getInstance();
+        //recipesArrayList = new ArrayList<>();
+        //recipeLab.fillRecipeArray();
+        recipesArrayList = recipeLab.getRecipes();
+        System.out.println("HOMEFRAGMENT recipes: " + recipesArrayList);
+
+        // display recipes
+        GridViewAdapter mAdapter = new GridViewAdapter(getContext(), R.layout.grid_item, recipesArrayList);
+        mGridView.setAdapter(mAdapter);
+
+        mGridView.setOnItemClickListener(new MyRecipeClickedListener());
+
+
+        /*
         // Retrieve recipes and put in new arrayList
         recipesArrayList = new ArrayList<>();
 
@@ -149,7 +164,7 @@ public class HomeFragment extends Fragment {
             mGridView.setAdapter(mAdapter);
 
             mGridView.setOnItemClickListener(new MyRecipeClickedListener());
-        }
+        }*/
 
 
 

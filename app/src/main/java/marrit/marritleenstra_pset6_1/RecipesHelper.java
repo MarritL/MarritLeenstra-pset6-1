@@ -85,6 +85,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
                 JSONObject object = matches.getJSONObject(i);
                 String id = object.getString("id");
                 String name = object.getString("recipeName");
+                String sourceName = object.getString("sourceDisplayName");
                 Double rating = object.getDouble("rating");
                 JSONArray images =  object.getJSONArray("smallImageUrls");
 
@@ -92,7 +93,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
                     imagesArray.add(images.getString(j));
                 }
 
-                Recipe recipe = new Recipe(id, name, rating, imagesArray);
+                Recipe recipe = new Recipe(id, name, sourceName, rating, imagesArray);
                 recipesArrayList.add(recipe);
             }
         } catch (JSONException e) {

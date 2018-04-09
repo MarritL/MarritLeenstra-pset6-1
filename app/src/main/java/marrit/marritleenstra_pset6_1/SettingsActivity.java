@@ -167,6 +167,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
 
+                System.out.println("SETTINGSACTIVITY: on delete called");
+
                 // get current user info
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 final String mUID = user.getUid();
@@ -180,7 +182,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                 //mDatabase.child("users").child(mUID).setValue(null);
+                //mDatabase.child("users").child(mUID).child("recipes").removeValue();
                 mDatabase.child("users").child(mUID).removeValue();
+
+                System.out.println("SETTINGSACTIVITY: after database values removed");
 
                 // block of code from firebase userguide
                 user.delete()
@@ -189,12 +194,6 @@ public class SettingsActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "User account deleted.");
-
-
-
-
-
-
 
                                 }
                             }
