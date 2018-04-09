@@ -79,6 +79,7 @@ Marrit Leenstra
 * Working on runstreak
   * Problem: when a user doens't eat vegetarian he might not bother to click no in the app
      * Solution: Add functionality to check if user clicked or not in one day, if not, consider as a "NO" and set runstreak to 0.
+* Now that every account has also the boolean clickedToday, also the community value for number of people eating vegetarian today can be updated.
   
        
      
