@@ -6,17 +6,19 @@ import java.util.ArrayList;
 
 public class Recipe implements Serializable {
 
+    private String mId;
     private String mRecipeName;
     private Double mRating;
     //private String mSource;
     private ArrayList<String> mImages;
 
+
     // default constructor for FireBase
     public Recipe() {}
 
     // constructor
-    //Recipe(String name, Double rating, String source, Array[] images ){
-        Recipe(String name, Double rating, ArrayList<String> images){
+    Recipe(String id, String name, Double rating, ArrayList<String> images){
+        this.mId = id;
         this.mRecipeName = name;
         this.mRating = rating;
         //this.mSource = source;

@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -222,7 +223,24 @@ public class HomeFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            Toast.makeText(getContext(), "clicked item: " + position, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "clicked item: " + position, Toast.LENGTH_SHORT).show();
+
+            // get the recipe clicked
+            Recipe mRecipe = (Recipe) parent.getItemAtPosition(position);
+
+            // create new fragment
+            RecipeFragment recipeFragment = new RecipeFragment();
+
+            // add Recipe data
+            Bundle dataRecipe = new Bundle();
+            dataRecipe.putSerializable("RECIPEDATA", mRecipe);
+            recipeFragment.setArguments(dataRecipe);
+
+            // add the fragment to the 'fragment_container' framelayout
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, recipeFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 

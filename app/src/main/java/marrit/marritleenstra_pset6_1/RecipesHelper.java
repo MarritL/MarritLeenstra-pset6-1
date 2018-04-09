@@ -66,6 +66,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
         recipesQueue.add(jsonObjectRequest);
 
     }
+
     // Handle API response
     @Override
     public void onResponse(JSONObject response) {
@@ -82,6 +83,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
             for (int i = 0; i < matches.length(); i++) {
                 ArrayList<String> imagesArray = new ArrayList<>();
                 JSONObject object = matches.getJSONObject(i);
+                String id = object.getString("id");
                 String name = object.getString("recipeName");
                 Double rating = object.getDouble("rating");
                 JSONArray images =  object.getJSONArray("smallImageUrls");
@@ -90,7 +92,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
                     imagesArray.add(images.getString(j));
                 }
 
-                Recipe recipe = new Recipe(name, rating, imagesArray);
+                Recipe recipe = new Recipe(id, name, rating, imagesArray);
                 recipesArrayList.add(recipe);
             }
         } catch (JSONException e) {
