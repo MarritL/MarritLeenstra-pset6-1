@@ -80,6 +80,11 @@ Marrit Leenstra
   * Problem: when a user doens't eat vegetarian he might not bother to click no in the app
      * Solution: Add functionality to check if user clicked or not in one day, if not, consider as a "NO" and set runstreak to 0.
 * Now that every account has also the boolean clickedToday, also the community value for number of people eating vegetarian today can be updated.
+
+# 9-4-2018
+* Working on showing recipe details after click on list.
+  * Considering: should i open the details in a new fragment or an activity?
+     * Deciding: I would like to keep the bottomnavigation when you watch the recipe details, so that you can go from there to the user and community tabs (not only back to the home tab). Therefor i will implement the recipe detail in another fragment (in fragement container of MainActivity).
   
        
      
