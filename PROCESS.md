@@ -85,6 +85,8 @@ Marrit Leenstra
 * Working on showing recipe details after click on list.
   * Considering: should i open the details in a new fragment or an activity?
      * Deciding: I would like to keep the bottomnavigation when you watch the recipe details, so that you can go from there to the user and community tabs (not only back to the home tab). Therefor i will implement the recipe detail in another fragment (in fragement container of MainActivity).
+  * Problem: I cannot change the recipe (add more details), because i don't have a structure to access one recipe in my database
+     * Solution: I try to implement a singleton structure for my Recipes
   
        
      
