@@ -12,7 +12,7 @@ public class Recipe implements Serializable {
     private String mSourceName;
     private String mSourceUrl;
     private int mServings;
-    private int mTime;
+    private String mTime;
     private ArrayList<String> mImages;
     private String mLargeImageUrl;
     private ArrayList<String> mIngredients;
@@ -32,7 +32,7 @@ public class Recipe implements Serializable {
         this.mImages = images;
         this.mSourceUrl = "";
         this.mServings = 0;
-        this.mTime = 0;
+        this.mTime = "";
         this.mLargeImageUrl = "";
         this.mIngredients = new ArrayList<>();
     }
@@ -94,11 +94,11 @@ public class Recipe implements Serializable {
         mServings = servings;
     }
 
-    public int getTime() {
+    public String getTime() {
         return mTime;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         mTime = time;
     }
 

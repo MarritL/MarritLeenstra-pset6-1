@@ -219,7 +219,7 @@ public class RegisterActivity extends AppCompatActivity implements RecipesHelper
                                         Toast.LENGTH_SHORT).show();
 
                                 // First download of recipes
-                                RecipesHelper recipesHelper = new RecipesHelper(getApplicationContext());
+                                RecipesHelper recipesHelper = new RecipesHelper(RegisterActivity.this);
                                 recipesHelper.getRecipes(RegisterActivity.this);
 
                                 // Download or ingredientslist

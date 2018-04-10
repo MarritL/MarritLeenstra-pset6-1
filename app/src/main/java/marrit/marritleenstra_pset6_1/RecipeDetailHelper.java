@@ -65,19 +65,21 @@ public class RecipeDetailHelper implements Response.Listener<JSONObject>, Respon
     public void onResponse(JSONObject response) {
 
         System.out.println(TAG + " response is: " + response);
+        String image = "";
 
         try {
             JSONArray imagesArray = response.getJSONArray("images");
             JSONObject imagesObject = imagesArray.getJSONObject(0);
             if (imagesObject.getString("hostedLargeUrl")!=null) {
-                String image = imagesObject.getString("hostedLargeUrl");
+                image = imagesObject.getString("hostedLargeUrl");
             }
             else if (imagesObject.getString("hostedMediumUlr")!=null) {
-                String image = imagesObject.getString("hostedMediumUlr");
+                image = imagesObject.getString("hostedMediumUlr");
             }
             else if (imagesObject.getString("hostedSmallUrl")!=null) {
-                String image = imagesObject.getString("hostedSmallUrl");
+                image = imagesObject.getString("hostedSmallUrl");
             }
+
             JSONObject sourceObject = response.getJSONObject("source");
             String sourceUrl = sourceObject.getString("sourceRecipeUrl");
             JSONArray ingredientArray = response.getJSONArray("ingredientLines");
@@ -87,16 +89,19 @@ public class RecipeDetailHelper implements Response.Listener<JSONObject>, Respon
                 ingredients.add(ingredientArray.get(i).toString());
             }
             String servings = response.getString("numberOfServings");
-            String time = response.getString("totalTimeInSeconds");
+            String time = response.getString("totalTime");
             String id = response.getString("id");
 
             RecipeLab recipeLab = RecipeLab.getInstance();
             Recipe recipe = recipeLab.getRecipe(id);
-            //recipe.setLargeImageUrl(image);
+            if (image.equals("")){
+                image = recipe.getImages().get(0);
+            }
+            recipe.setLargeImageUrl(image);
             recipe.setSourceUrl(sourceUrl);
             recipe.setIngredients(ingredients);
             recipe.setServings(Integer.valueOf(servings));
-            recipe.setTime(Integer.valueOf(time));
+            recipe.setTime(time);
 
             mCallback.gotRecipeDetails(recipe, mContext);
 

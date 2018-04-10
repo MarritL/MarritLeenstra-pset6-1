@@ -63,22 +63,55 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/IV_recipe"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
 
-        <GridView
-            android:id="@+id/gridView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="2"
-            android:layout_gravity="center"
-            android:horizontalSpacing="10dp"
-            android:verticalSpacing="10dp"
-            android:stretchMode="columnWidth"
-            android:layout_marginBottom="16dp">
-        </GridView>
+            <TextView
+                android:id="@+id/TV_daily_recipes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/daily_recommendations"/>
+
+            <TextView
+                android:id="@+id/TV_yummly_requirements"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TV_daily_recipes"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:autoLink="web"
+                android:textSize="10sp"
+                android:text="soup recipes: search powered by Yummly"/>
+
+            <ImageView
+                android:id="@+id/IV_yummly_requirements"
+                android:layout_toEndOf="@id/IV_yummly_requirements"
+                android:layout_marginStart="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/IV_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="2"
+                android:layout_gravity="center"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp"
+                android:stretchMode="columnWidth"
+                android:layout_below="@+id/TV_yummly_requirements"
+                android:layout_marginBottom="16dp">
+            </GridView>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
