@@ -96,6 +96,8 @@ Marrit Leenstra
 # 10-4-2018
 * Working on the layout of the recipe data i got from the GET Recipe request
   * Problem: today i get a error code 500 (Internal server error), no idea why. I sent an email to the Yummly api support team.
+     * Got a response from Yummly. Luckely not my fault, more users have problems today. They try to solve the problem.
+* In the mean time i am working on the layout and showing all the required attributes. However, i cannot test my code
   
        
      
