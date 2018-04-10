@@ -88,6 +88,16 @@ Marrit Leenstra
   * Problem: I cannot change the recipe (add more details), because i don't have a structure to access one recipe in my database
      * Solution: I try to implement a singleton structure for my Recipes
   * Problem: The recipes are not downloaded yet when i want to display them.
+     * Solution: call fillRecipeArray from mainAcitivy before loading the HomeFragment
+* I can now update the recipes in the database. 
+  * Problem: However, since the loading is asynchronous. The page is already loaded in the RecipeFragment, before the details are added to the recipe and thus they are not displayed the first time.
+     * Solution: TODO!
+     
+# 10-4-2018
+* Working on the layout of the recipe data i got from the GET Recipe request
+  * Problem: today i get a error code 500 (Internal server error), no idea why. I sent an email to the Yummly api support team.
+     * Got a response from Yummly. Luckely not my fault, more users have problems today. They try to solve the problem.
+* In the mean time i am working on the layout and showing all the required attributes. However, i cannot test my code
   
        
      
