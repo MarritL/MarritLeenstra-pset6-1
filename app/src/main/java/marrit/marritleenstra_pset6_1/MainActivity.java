@@ -1,5 +1,6 @@
 package marrit.marritleenstra_pset6_1;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -7,12 +8,14 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -337,24 +340,9 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
 
 
 
+
     //TODO: if app not used for one day, runstreak should go to 0 (automatic a no)
 
-
-    /*Store Arraylist Using Shared Preferences:
-    https://stackoverflow.com/questions/22984696/storing-array-list-object-in-sharedpreferences
-
-    SharedPreferences prefs=this.getSharedPreferences("yourPrefsKey",Context.MODE_PRIVATE);
-    Editor edit=prefs.edit();
-
-    Set<String> set = new HashSet<String>();
-    set.addAll(your Arraylist Name);
-    edit.putStringSet("yourKey", set);
-    edit.commit();
-
-    Retrieve Arraylist from Shared Preferences
-
-    Set<String> set = prefs.getStringSet("yourKey", null);
-    List<String> sample=new ArrayList<String>(set);*/
 
 
 }

@@ -32,14 +32,20 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent">
+                android:layout_height="200dp"
+                android:background="@drawable/vegetarian_background">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/scrim_full"/>
 
                 <TextView
                     android:id="@+id/TV_total_days"
                     android:paddingTop="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="@string/total_days"
                     android:layout_centerHorizontal="true"/>
 
@@ -49,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
                     android:text="20"
+                    android:textColor="@color/white"
                     android:layout_below="@id/TV_total_days"
                     android:layout_centerHorizontal="true"
                     android:textSize="50sp"/>
@@ -58,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/TV_number_total_days_community"
                     android:layout_centerHorizontal="true"
+                    android:textColor="@color/white"
                     android:paddingBottom="30dp"
                     android:text="@string/days"/>
 
