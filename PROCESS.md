@@ -98,6 +98,12 @@ Marrit Leenstra
   * Problem: today i get a error code 500 (Internal server error), no idea why. I sent an email to the Yummly api support team.
      * Got a response from Yummly. Luckely not my fault, more users have problems today. They try to solve the problem.
 * In the mean time i am working on the layout and showing all the required attributes. However, i cannot test my code
+
+# 11-4-2018
+* Fixing some bugs
+  * Problem: unsubscribe doesn't work anymore.
+  * Reason: i added an extra eventlistener to the code (to get the recipes from the database), when i try to delete the userdata from the database. This listener protests (because his data is gone too).
+     * Solution: Seperate the recipes from the user in the database, so that the listeners are not listening to the same data.
   
        
      
