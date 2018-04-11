@@ -30,6 +30,8 @@
 
             </RelativeLayout>
 
+            <!-- source vegetarian background:
+            https://ow.roocdn.com/assets/images/campaign-landing-pages/hero/vegetarian.jpg -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

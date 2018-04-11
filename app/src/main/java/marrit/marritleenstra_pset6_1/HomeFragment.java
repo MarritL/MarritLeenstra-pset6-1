@@ -2,6 +2,7 @@ package marrit.marritleenstra_pset6_1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,9 +65,12 @@ public class HomeFragment extends Fragment {
     TextView mClickedYes;
     public ImageView mIVRecipe;
     private GridView mGridView;
+    TextView mSource;
+    String mSourceUrl;
 
     // declare variables
     ArrayList<Recipe> recipesArrayList;
+    User user;
 
     // declare Firebase components
     //FirebaseUser mUser;
@@ -120,6 +124,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // get user data
+        user = (User) getArguments().getSerializable("USERDATA");
+
         // initiate UI components
         mYesButton = (Button) v.findViewById(R.id.button_yes);
         mNoButton = (Button) v.findViewById(R.id.button_no);
@@ -128,18 +135,27 @@ public class HomeFragment extends Fragment {
         mClickedYes = (TextView) v.findViewById(R.id.TV_clicked_yes);
         mIVRecipe = (ImageView) v.findViewById(R.id.IV_recipe);
         mGridView = (GridView) v.findViewById(R.id.gridView);
+        mSource = (TextView) v.findViewById(R.id.TV_yummly_requirements);
+        mSourceUrl = "https://www.yummly.com/"; //TODO: get from api (when back online)
 
-        //mQuestion.setVisibility(View.VISIBLE);
-        mClickedNo.setVisibility(View.INVISIBLE);
-        mClickedYes.setVisibility(View.INVISIBLE);
-
-        mYesButton.setOnClickListener(new TodayVegetarianClickListener());
-        mNoButton.setOnClickListener(new TodayVegetarianClickListener());
-
+        // control visibility of vegetarian question and answers
+        if (user.getClickedToday() & (user.getRunStreak() == 0)) {
+            mQuestion.setVisibility(View.INVISIBLE);
+            mClickedYes.setVisibility(View.INVISIBLE);
+            mYesButton.setVisibility(View.INVISIBLE);
+            mNoButton.setVisibility(View.INVISIBLE);
+        } else if(user.getClickedToday()){
+            mQuestion.setVisibility(View.INVISIBLE);
+            mClickedNo.setVisibility(View.INVISIBLE);
+            mYesButton.setVisibility(View.INVISIBLE);
+            mNoButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            mClickedNo.setVisibility(View.INVISIBLE);
+            mClickedYes.setVisibility(View.INVISIBLE);
+        }
         // retrieve recipes
         RecipeLab recipeLab = RecipeLab.getInstance();
-        //recipesArrayList = new ArrayList<>();
-        //recipeLab.fillRecipeArray();
         recipesArrayList = recipeLab.getRecipes();
         System.out.println("HOMEFRAGMENT recipes: " + recipesArrayList);
 
@@ -147,44 +163,23 @@ public class HomeFragment extends Fragment {
         GridViewAdapter mAdapter = new GridViewAdapter(getContext(), R.layout.grid_item, recipesArrayList);
         mGridView.setAdapter(mAdapter);
 
+        // attach listeners
+        mYesButton.setOnClickListener(new TodayVegetarianClickListener());
+        mNoButton.setOnClickListener(new TodayVegetarianClickListener());
         mGridView.setOnItemClickListener(new MyRecipeClickedListener());
+        mSource.setOnClickListener(new goToSourceOnClick());
 
-
-        /*
-        // Retrieve recipes and put in new arrayList
-        recipesArrayList = new ArrayList<>();
-
-        User user = (User) getArguments().getSerializable("USERDATA");
-        String recipes = user.getRecipes();
-
-        // display recipes in gridview
-        if (!recipes.equals("")) {
-            recipesArrayList = MyNightJobs.castToArray(recipes);
-            GridViewAdapter mAdapter = new GridViewAdapter(getContext(), R.layout.grid_item, recipesArrayList);
-            mGridView.setAdapter(mAdapter);
-
-            mGridView.setOnItemClickListener(new MyRecipeClickedListener());
-        }*/
-
+        // TODO: only needed to test now that server isn't working?
         recipeLab.safeToDatabase(recipesArrayList);
 
-
         return v;
-
     }
 
-   private class updateUI {
-
-
-   }
 
     private class TodayVegetarianClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-
-            // get user details
-            User user = (User) getArguments().getSerializable("USERDATA");
 
             // get database reference
             mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -203,31 +198,18 @@ public class HomeFragment extends Fragment {
                 // update user's values
                 daysVegetarian++;
                 runStreak++;
-                System.out.println("CO2 is:" + co2);
                 co2 = co2 +1.5;
-                //co2 = co2 + 0.5;
-                System.out.println("CO2 is now:" + co2);
                 animals = animals+0.2;
 
-
-                // display user's values
+                // update user's values
                 mDatabase.child("users").child(mUID).child("daysVegetarian").setValue(daysVegetarian);
                 mDatabase.child("users").child(mUID).child("runStreak").setValue(runStreak);
                 mDatabase.child("users").child(mUID).child("co2Avoided").setValue(co2);
                 mDatabase.child("users").child(mUID).child("animalsSaved").setValue(animals);
-
-                // replace question till next day
-                mQuestion.setVisibility(View.INVISIBLE);
-                mClickedYes.setVisibility(View.VISIBLE);
-
             }
             else if (view == mNoButton) {
-                mDatabase.child("users").child(mUID).child("clickedToday").setValue(false);
+                mDatabase.child("users").child(mUID).child("clickedToday").setValue(true);
                 mDatabase.child("users").child(mUID).child("runStreak").setValue(0);
-
-                // TODO: replace question till next day
-                mQuestion.setVisibility(view.INVISIBLE);
-                mClickedNo.setVisibility(View.VISIBLE);
             }
 
         }
@@ -237,8 +219,6 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//            Toast.makeText(getContext(), "clicked item: " + position, Toast.LENGTH_SHORT).show();
 
             // get the recipe clicked
             Recipe mRecipe = (Recipe) parent.getItemAtPosition(position);
@@ -256,6 +236,19 @@ public class HomeFragment extends Fragment {
             transaction.replace(R.id.fragment_container, recipeFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+        }
+    }
+
+    // class to open the recipe source url
+    // source: http://android.okhelp.cz/open-url-with-browser-if-button-clicked-android-example/
+    public class goToSourceOnClick implements Button.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            Intent browserIntent = new Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(mSourceUrl));
+            startActivity(browserIntent);
         }
     }
 
