@@ -180,9 +180,9 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent newIntent = new Intent(SettingsActivity.this, SignInActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
 
+                // delete the userdata from the database
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                //mDatabase.child("users").child(mUID).setValue(null);
-                //mDatabase.child("users").child(mUID).child("recipes").removeValue();
+                mDatabase.child("recipes").child(mUID).removeValue();
                 mDatabase.child("users").child(mUID).removeValue();
 
                 System.out.println("SETTINGSACTIVITY: after database values removed");

@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment {
             mGridView.setOnItemClickListener(new MyRecipeClickedListener());
         }*/
 
-
+        recipeLab.safeToDatabase(recipesArrayList);
 
 
         return v;

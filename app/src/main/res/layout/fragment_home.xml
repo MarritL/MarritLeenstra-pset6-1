@@ -104,7 +104,7 @@
                 android:layout_height="match_parent"
                 android:numColumns="2"
                 android:layout_gravity="center"
-                android:horizontalSpacing="10dp"
+                android:horizontalSpacing="0dp"
                 android:verticalSpacing="10dp"
                 android:stretchMode="columnWidth"
                 android:layout_below="@+id/TV_yummly_requirements"

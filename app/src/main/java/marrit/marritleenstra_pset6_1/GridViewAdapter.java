@@ -19,12 +19,6 @@ public class GridViewAdapter extends ArrayAdapter {
     private Context mContext;
     private ArrayList<Recipe> mRecipeArrayList;
 
-    /*// Constructor
-    public GridViewAdapter(Context context, ArrayList<Recipe> recipes) {
-        this.mContext = context;
-        this.mRecipeArrayList = recipes;
-    }*/
-
     // construct an adapter for the To Listen List
     GridViewAdapter(Context context, int textViewResourceId, ArrayList<Recipe> recipes) {
         super(context, textViewResourceId, recipes);
@@ -74,6 +68,7 @@ public class GridViewAdapter extends ArrayAdapter {
             // set text components
             TVTitle.setText(i.getRecipeName());
             TVSource.setText(i.getRating().toString());
+            //TVSource.setText(i.getRecipeName());
 
             // set image component with Picasso
             String mImageURL = i.getImages().get(0);
