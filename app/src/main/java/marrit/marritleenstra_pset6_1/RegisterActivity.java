@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -218,6 +219,7 @@ public class RegisterActivity extends AppCompatActivity implements RecipesHelper
                                 Toast.makeText(RegisterActivity.this, R.string.auth_succes,
                                         Toast.LENGTH_SHORT).show();
 
+
                                 // First download of recipes
                                 RecipesHelper recipesHelper = new RecipesHelper(RegisterActivity.this);
                                 recipesHelper.getRecipes(RegisterActivity.this);
@@ -236,6 +238,7 @@ public class RegisterActivity extends AppCompatActivity implements RecipesHelper
                                 if (firebaseUser != null) {
                                     mUid = firebaseUser.getUid();
                                 }
+
 
 
 

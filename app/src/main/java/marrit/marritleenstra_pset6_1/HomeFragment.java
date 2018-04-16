@@ -1,17 +1,10 @@
 package marrit.marritleenstra_pset6_1;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,31 +12,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import static marrit.marritleenstra_pset6_1.MainActivity.PREFS_NAME;
 
 
 /**
@@ -65,12 +40,15 @@ public class HomeFragment extends Fragment {
     TextView mClickedYes;
     public ImageView mIVRecipe;
     private GridView mGridView;
-    TextView mSource;
-    String mSourceUrl;
+    TextView mYummlySearch;
+    ImageView mYummlyLogo;
+
 
     // declare variables
     ArrayList<Recipe> recipesArrayList;
     User user;
+    String mSourceUrl;
+    String mLogoUrl;
 
     // declare Firebase components
     //FirebaseUser mUser;
@@ -135,8 +113,9 @@ public class HomeFragment extends Fragment {
         mClickedYes = (TextView) v.findViewById(R.id.TV_clicked_yes);
         mIVRecipe = (ImageView) v.findViewById(R.id.IV_recipe);
         mGridView = (GridView) v.findViewById(R.id.gridView);
-        mSource = (TextView) v.findViewById(R.id.TV_yummly_requirements);
-        mSourceUrl = "https://www.yummly.com/"; //TODO: get from api (when back online)
+        mYummlySearch = (TextView) v.findViewById(R.id.TV_yummly_search);
+        mYummlyLogo = (ImageView) v.findViewById(R.id.IV_yummly_logo);
+
 
         // control visibility of vegetarian question and answers
         if (user.getClickedToday() & (user.getRunStreak() == 0)) {
@@ -163,11 +142,23 @@ public class HomeFragment extends Fragment {
         GridViewAdapter mAdapter = new GridViewAdapter(getContext(), R.layout.grid_item, recipesArrayList);
         mGridView.setAdapter(mAdapter);
 
+        // initiate yummly api use requirements
+        mSourceUrl =  recipesArrayList.get(0).getYummlyUrl();
+        mYummlySearch.setText(recipesArrayList.get(0).getYummlySearch());
+        mLogoUrl = recipesArrayList.get(0).getYummlyLogoUrl();
+
+        Picasso.with(getContext())
+                .load(mLogoUrl)
+                .resize(120,120)
+                .centerInside()
+                .into(mYummlyLogo);
+
+
         // attach listeners
         mYesButton.setOnClickListener(new TodayVegetarianClickListener());
         mNoButton.setOnClickListener(new TodayVegetarianClickListener());
         mGridView.setOnItemClickListener(new MyRecipeClickedListener());
-        mSource.setOnClickListener(new goToSourceOnClick());
+        mYummlySearch.setOnClickListener(new goToSourceOnClick());
 
         // TODO: only needed to test now that server isn't working?
         recipeLab.safeToDatabase(recipesArrayList);

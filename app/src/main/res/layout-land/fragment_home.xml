@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
@@ -23,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:layout_centerHorizontal="true"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/question"/>
 
@@ -49,8 +50,8 @@
                 android:id="@+id/button_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/TV_question"
-                android:layout_alignStart="@id/TV_question"
+                android:layout_toStartOf="@id/button_no"
+                android:layout_marginEnd="20dp"
                 android:padding="4dp"
                 android:text="@string/yes"/>
 
@@ -58,8 +59,8 @@
                 android:id="@+id/button_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/TV_question"
-                android:layout_alignEnd="@id/TV_question"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
                 android:padding="4dp"
                 android:text="@string/no"/>
 
@@ -92,10 +93,10 @@
 
             <ImageView
                 android:id="@+id/IV_yummly_logo"
-                android:layout_below="@id/TV_yummly_search"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/TV_yummly_search"
                 android:layout_marginBottom="6dp"/>
 
             <ImageView
@@ -107,7 +108,7 @@
                 android:id="@+id/gridView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:numColumns="2"
+                android:numColumns="4"
                 android:layout_gravity="center"
                 android:horizontalSpacing="0dp"
                 android:verticalSpacing="10dp"

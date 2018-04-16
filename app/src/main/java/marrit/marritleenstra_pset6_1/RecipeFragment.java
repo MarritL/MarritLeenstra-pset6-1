@@ -50,6 +50,7 @@ public class RecipeFragment extends Fragment implements RecipeDetailHelper.Fragm
     // variables
     String mSourceUrl;
     ArrayList<String> mIngredientsArray;
+    Recipe recipe;
 
 
     /**
@@ -73,6 +74,15 @@ public class RecipeFragment extends Fragment implements RecipeDetailHelper.Fragm
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get recipe details
+        recipe = (Recipe) getArguments().getSerializable("RECIPEDATA");
+
+        RecipeDetailHelper recipeDetailHelper = new RecipeDetailHelper(getContext());
+        recipeDetailHelper.getRecipeDetails(this, recipe.getId());
+
+        RecipeLab recipeLab = RecipeLab.getInstance();
+        recipe = recipeLab.getRecipe(recipe.getId());
 
         /*// get recipe details
         Recipe recipe = (Recipe) getArguments().getSerializable("RECIPEDATA");
@@ -99,18 +109,17 @@ public class RecipeFragment extends Fragment implements RecipeDetailHelper.Fragm
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
 
-        // get recipe details
-        Recipe recipe = (Recipe) getArguments().getSerializable("RECIPEDATA");
-
-        Toast.makeText(getContext(), "RECIPEFRAGEMENT: clicked item: " + recipe.getRecipeName(), Toast.LENGTH_SHORT).show();
+        /*// get recipe details
+        recipe = (Recipe) getArguments().getSerializable("RECIPEDATA");
 
         RecipeDetailHelper recipeDetailHelper = new RecipeDetailHelper(getContext());
         recipeDetailHelper.getRecipeDetails(this, recipe.getId());
 
         RecipeLab recipeLab = RecipeLab.getInstance();
-        recipe = recipeLab.getRecipe(recipe.getId());
+        recipe = recipeLab.getRecipe(recipe.getId());*/
 
         // initialise UI components
+        // TODO: delete and move to gotRecipes?
         mLargeImage = (ImageView) view.findViewById(R.id.IV_detail_recipe);
         mNumberIngredients = (TextView) view.findViewById(R.id.TV_detail_number_ingredients);
         mRecipeName = (TextView) view.findViewById(R.id.TV_detail_recipename);
@@ -152,7 +161,28 @@ public class RecipeFragment extends Fragment implements RecipeDetailHelper.Fragm
 
         System.out.println("RECIPEFRAGMENT gotRecipe: " + recipe);
 
-        // display recipe
+        // update UI
+        if(!recipe.getLargeImageUrl().equals("")){
+        Picasso.with(getContext())
+                .load(recipe.getLargeImageUrl())
+                .into(mLargeImage);
+        }
+        mIngredientsArray = recipe.getIngredients();
+        mNumberIngredients.setText(String.valueOf(mIngredientsArray.size()));
+        mTime.setText(recipe.getTime());
+        mRecipeName.setText(recipe.getRecipeName());
+        mSourceName.setText(recipe.getSourceName());
+        mSourceUrl = recipe.getSourceUrl();
+
+        // initialise list array of ingredients with standard array adapter
+        ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<String>(
+                getContext(), android.R.layout.simple_list_item_1, android.R.id.text1,
+                mIngredientsArray);
+
+        mIngredientsList.setAdapter(ingredientsAdapter);
+
+        // attach onClickListener to Button
+        mGetDirections.setOnClickListener(new getDirectionsOnClick());
 
     }
 
@@ -214,4 +244,14 @@ public class RecipeFragment extends Fragment implements RecipeDetailHelper.Fragm
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }*/
+
+    // remember if the app was running already before event like rotation
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean("ALREADYSTARTED", true);
+        savedInstanceState.putSerializable("RECIPE", recipe);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+
 }

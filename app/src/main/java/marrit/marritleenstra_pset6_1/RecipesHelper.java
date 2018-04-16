@@ -44,6 +44,7 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
 
     // request recipes from yummly API
     void getRecipes(Callback activity) {
+        System.out.println("RECIPESHELPER called getRecipes");
         mCallback = activity;
 
         // fill arrayList with ingredients
@@ -71,12 +72,17 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
     @Override
     public void onResponse(JSONObject response) {
 
-        System.out.println(TAG + " response: " + response);
+        System.out.println(TAG + " got recipes: response: " + response);
 
         ArrayList<Recipe> recipesArrayList = new ArrayList<>();
 
         // get the recipes
         try {
+            JSONObject attribution = response.getJSONObject("attribution");
+            String yummlyUrl = attribution.getString("url");
+            String yummlySearch = attribution.getString("text");
+            String yummlylogo = attribution.getString("logo");
+
             JSONArray matches = response.getJSONArray("matches");
             System.out.println("matches :" + matches);
 
@@ -93,7 +99,8 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
                     imagesArray.add(images.getString(j));
                 }
 
-                Recipe recipe = new Recipe(id, name, sourceName, rating, imagesArray);
+                Recipe recipe = new Recipe(id, name, sourceName, rating, imagesArray, yummlylogo,
+                        yummlySearch, yummlyUrl);
                 recipesArrayList.add(recipe);
             }
         } catch (JSONException e) {
@@ -112,11 +119,10 @@ public class RecipesHelper implements Response.Listener<JSONObject>, Response.Er
     }
 
     // method to fill the list of ingredients
-        private void getIngredientList() {
+    private void getIngredientList() {
 
         try {
             read(mContext.getAssets().open("ingredients.txt"));
-            System.out.println("MAINACTIVITY ingredients: " + ingredients);
         } catch (IOException e) {
             Log.e(TAG, e.getClass().getName());
         }

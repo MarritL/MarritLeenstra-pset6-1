@@ -57,7 +57,6 @@ public class SignInActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new attemptLoginOnClick());
         mGoToRegisterView.setOnClickListener(new goToRegisterOnClick());
         mForgotPassword.setOnClickListener(new goToForgotPasswordOnClick());
-        //mGoToRegisterView.setOnClickListener(new activityChanger());
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -193,6 +192,11 @@ public class SignInActivity extends AppCompatActivity {
                     });
 
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        // do nothing
     }
 
 }

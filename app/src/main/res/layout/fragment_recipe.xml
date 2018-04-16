@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:layout_margin="16dp"
              tools:context=".RecipeFragment">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,6 +18,8 @@
             android:layout_height="250dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"/>
+
+
 
         <RelativeLayout
             android:id="@+id/RL_details1"
@@ -78,6 +82,7 @@
 
         </RelativeLayout>
 
+
         <TextView
             android:id="@+id/TV_ingredients"
             android:layout_width="wrap_content"
@@ -93,7 +98,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/TV_ingredients"
             android:layout_above="@id/Button_click_for_details">
-
         </ListView>
 
         <Button
@@ -105,8 +109,8 @@
             android:text="@string/view_directions"
             android:textStyle="bold"/>
 
-    </RelativeLayout>
 
+    </RelativeLayout>
 
 
 </FrameLayout>

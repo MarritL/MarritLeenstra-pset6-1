@@ -64,7 +64,9 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     // variables
     public User mUser;
     boolean mOnLaunchDone;
+    boolean mOnStarted;
     public static final String PREFS_NAME = "MyPrefsFile";
+    public static final String STARTED = "IsStartedBefore";
     //public static RecipeLab recipeLab = RecipeLab.getInstance();
     int mSumDays;
     double mSumAnimals;
@@ -72,6 +74,8 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     int mSumParticipantsToday;
     int mSumParticipants;
     //Boolean mClickedToday;
+    public static SharedPreferences settings;
+    public static SharedPreferences.Editor editor;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -97,8 +101,8 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
 
                     transaction.replace(R.id.fragment_container, homeFragment);
                     transaction.addToBackStack(null);
-                    //transaction.commit();
-                    transaction.commitAllowingStateLoss(); // delete account doen't work with normal .commit()
+                    transaction.commit();
+                    //transaction.commitAllowingStateLoss(); // delete account doesn't work with normal .commit()
 
                     return true;
 
@@ -173,9 +177,10 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
         };
 
         // Restore preferences
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        settings = getSharedPreferences(PREFS_NAME, 0);
         mOnLaunchDone = settings.getBoolean("FIRSTLAUNCHDONE", false);
-        System.out.println("mFirstLauncheDone3 = " + mOnLaunchDone);
+        mOnStarted = settings.getBoolean(STARTED, false);
+        System.out.println(TAG + "mFirstLauncheDone3 = " + mOnLaunchDone + " and mOnStarted3 = " + mOnStarted);
 
         // initialise bottom navigation tabs
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -215,10 +220,20 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                         navigation.getMenu().findItem(R.id.navigation_user).setTitle(mDisplayname);
 
 
+                        //TODO: after turning the screen errors (if already been in other tab)
                         // on launch the hometab is opened (initiated here, because needs the user data)
-                        if (savedInstanceState == null) {
+                        //mOnStarted = settings.getBoolean(STARTED, false);
+                        Log.d(TAG, "isstartedbefore onDataChange is: " + mOnStarted);
+                        if (!mOnStarted){
+                            Log.d(TAG,"in onDataChange if sharedprefs is null");
                             navigation.setSelectedItemId(R.id.navigation_home);
+                            mOnStarted = true;
                         }
+
+                        /*if (savedInstanceState == null) {
+                            Log.d(TAG,"in onDataChange if savedInstancestate is null");
+                            navigation.setSelectedItemId(R.id.navigation_home);
+                        }*/
                     }
 
                     // when data changed set all the community values to 0
@@ -247,6 +262,9 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                             mSumParticipantsToday +=1;
                         }
                     }
+
+
+                    //Log.d(TAG, "mOnStartedisTrue");
                 }
 
                 @Override
@@ -271,8 +289,9 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
 
 
         settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
+        editor = settings.edit();
         editor.putBoolean("SAVED", false);
+        editor.putBoolean(STARTED, true);
         editor.commit();
 
         }
@@ -303,19 +322,28 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     // save preferences
     @Override
     protected void onStop() {
-        super.onStop();
-
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
+        //settings = getSharedPreferences(PREFS_NAME, 0);
+        //SharedPreferences.Editor editor = settings.edit();
         System.out.println("mFirstLaunchDone4 =" + mOnLaunchDone);
         editor.putBoolean("FIRSTLAUNCHDONE", mOnLaunchDone);
+        Log.d(TAG, "onStop called");
+       /* editor.putBoolean(STARTED, false);
+        Boolean check = settings.getBoolean(STARTED, false);
+        System.out.println(TAG + "is started before: " + check);
+
         editor.commit();
+        Boolean check2 = settings.getBoolean(STARTED, false);
+        System.out.println(TAG + "is started before: " + check2);*/
+
+        super.onStop();
 
     }
 
     // remember if the app was running already before event like rotation
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
+
+        Log.d(TAG,"adding");
         savedInstanceState.putBoolean("ALREADYSTARTED", true);
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -336,6 +364,22 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
 
         System.out.println("MAINACTIVITY gotERROR: " + message);
 
+    }
+
+
+
+
+
+
+    // make sure that IsStartedBefore is false again, so that the app goes to the home fragment
+    // again if the app is restarted
+    @Override
+    public void onDestroy(){
+        Log.d(TAG, "onDestroy called");
+        //settings.edit();
+        editor.putBoolean("ISSTARTEDBEFORE", false);
+        editor.commit();
+        super.onDestroy();
     }
 
 

@@ -29,6 +29,12 @@ public class UserFragment extends Fragment {
     User mUser;
     public String TAG = "USERFRAGMENT";
     private DatabaseReference mDatabase;
+    double chicken;
+    int sheep;
+    int pig;
+    int calf;
+    int horse;
+    int cow;
 
 
     public UserFragment() {
@@ -59,6 +65,17 @@ public class UserFragment extends Fragment {
         mTotalAnimals.setText(String.format("%.2f", user.getAnimalsSaved()));
         mTotalCO2.setText(String.format("%.1f", user.getCO2Avoided()));
 
+        // get the animals saved
+        Bundle animals = calculateAnimals(user.getDaysVegetarian());
+        cow = animals.getInt("COW");
+        horse = animals.getInt("HORSE");
+        calf = animals.getInt("CALF");
+        pig = animals.getInt("PIG");
+        sheep = animals.getInt("SHEEP");
+        chicken = animals.getDouble("CHICKEN");
+
+        System.out.println("USERFRAGMENT: " + cow + horse+ calf+ pig+ sheep+ chicken);
+
         // set listener to settings button
         mSettings.setOnClickListener(new goToSettings());
 
@@ -71,13 +88,72 @@ public class UserFragment extends Fragment {
         @Override
         public void onClick(View view) {
 
+            getActivity().getSupportFragmentManager().beginTransaction().remove(UserFragment.this).commit();
+
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 
     }
 
+    // method to calculate how many animals someone safed based on the amount of vegetarian days.
+    public Bundle calculateAnimals(int daysVegetarian) {
+
+        // set saved animals to 0
+        double chicken = 0;
+        int sheep = 0;
+        int pig = 0;
+        int calf = 0;
+        int horse = 0;
+        int cow = 0;
+
+        // Days it takes to save an animal
+        final int DAYSCHICKEN = 5;
+        final int DAYSSHEEP = 53;
+        final int DAYSPIG = 238;
+        final int DAYSCALF = 390;
+        final int DAYSHORSE = 568;
+        final int DAYSCOW = 778;
 
 
+        while(daysVegetarian>0){
 
+            if (daysVegetarian > DAYSCOW){
+                daysVegetarian -= DAYSCOW;
+                cow += 1;
+            }
+            else if (daysVegetarian > DAYSHORSE){
+                daysVegetarian -= DAYSHORSE;
+                horse += 1;
+            }
+            else if (daysVegetarian > DAYSCALF){
+                daysVegetarian -= DAYSCALF;
+                calf += 1;
+            }
+            else if (daysVegetarian > DAYSPIG){
+                daysVegetarian -= DAYSPIG;
+                pig += 1;
+            }
+            else if (daysVegetarian > DAYSSHEEP){
+                daysVegetarian -= DAYSSHEEP;
+                sheep += 1;
+            }
+            else if (daysVegetarian > DAYSCHICKEN){
+                chicken += daysVegetarian/DAYSCHICKEN;
+                daysVegetarian = 0;
+            }
+
+        }
+
+        Bundle animals = new Bundle();
+        animals.putDouble("CHICKEN", chicken);
+        animals.putInt("SHEEP", sheep);
+        animals.putInt("PIG", pig);
+        animals.putInt("CALF", calf);
+        animals.putInt("HORSE", horse);
+        animals.putInt("COW", cow);
+
+        return animals;
+    }
 }

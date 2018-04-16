@@ -16,6 +16,9 @@ public class Recipe implements Serializable {
     private ArrayList<String> mImages;
     private String mLargeImageUrl;
     private ArrayList<String> mIngredients;
+    private String mYummlySearch;
+    private String mYummlyUrl;
+    private String mYummlyLogoUrl;
 
 
 
@@ -24,12 +27,16 @@ public class Recipe implements Serializable {
     public Recipe() {}
 
     // constructor
-    Recipe(String id, String name, String sourceName, Double rating, ArrayList<String> images){
+    Recipe(String id, String name, String sourceName, Double rating, ArrayList<String> images,
+           String yummlyLogo, String yummlySearch, String yummlyUrl){
         this.mId = id;
         this.mRecipeName = name;
         this.mSourceName = sourceName;
         this.mRating = rating;
         this.mImages = images;
+        this.mYummlyLogoUrl = yummlyLogo;
+        this.mYummlySearch = yummlySearch;
+        this.mYummlyUrl = yummlyUrl;
         this.mSourceUrl = "";
         this.mServings = 0;
         this.mTime = "";
@@ -118,6 +125,30 @@ public class Recipe implements Serializable {
         mIngredients = ingredients;
     }
 
+    public String getYummlySearch() {
+        return mYummlySearch;
+    }
+
+    public void setYummlySearch(String yummlySearch) {
+        mYummlySearch = yummlySearch;
+    }
+
+    public String getYummlyUrl() {
+        return mYummlyUrl;
+    }
+
+    public void setYummlyUrl(String yummlyUrl) {
+        mYummlyUrl = yummlyUrl;
+    }
+
+    public String getYummlyLogoUrl() {
+        return mYummlyLogoUrl;
+    }
+
+    public void setYummlyLogoUrl(String yummlyLogoUrl) {
+        mYummlyLogoUrl = yummlyLogoUrl;
+    }
+
     // find the recipe with the specified id in the specified arrayList
     public static Recipe getRecipe(String id, ArrayList<Recipe> recipes) {
         for (Recipe recipe : recipes) {
@@ -127,4 +158,6 @@ public class Recipe implements Serializable {
         }
         return null;
     }
+
+
 }

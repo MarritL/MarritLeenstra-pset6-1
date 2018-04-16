@@ -2,6 +2,8 @@ package marrit.marritleenstra_pset6_1;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static marrit.marritleenstra_pset6_1.MainActivity.PREFS_NAME;
+import static marrit.marritleenstra_pset6_1.MainActivity.STARTED;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -70,6 +75,16 @@ public class SettingsActivity extends AppCompatActivity {
                 SettingsActivity.this.startActivity(newIntent);
             } if (view == mLogOut) {
                 FirebaseAuth.getInstance().signOut();
+
+                // Make sure that isStartedBefore is set to false, so that when the user logs in
+                // again the home fragment is started again.
+                MainActivity.editor.putBoolean(STARTED, false);
+                Boolean check = MainActivity.settings.getBoolean(STARTED, false);
+                System.out.println(TAG + "is started before: " + check);
+
+                MainActivity.editor.commit();
+                Boolean check2 = MainActivity.settings.getBoolean(STARTED, false);
+                System.out.println(TAG + "is started before: " + check2);
 
                 newIntent = new Intent(SettingsActivity.this, SignInActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
@@ -177,6 +192,9 @@ public class SettingsActivity extends AppCompatActivity {
                 // sign-out (before deleting from database)
                 FirebaseAuth.getInstance().signOut();
 
+                // destroy all fragements
+                //MainActivity.getSupportFragmentManager().beginTransaction().remove(UserFragment.class).commit();
+
                 Intent newIntent = new Intent(SettingsActivity.this, SignInActivity.class);
                 SettingsActivity.this.startActivity(newIntent);
 
@@ -218,6 +236,15 @@ public class SettingsActivity extends AppCompatActivity {
             // do nothing and go back
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        // go to mainActivity
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+        SettingsActivity.this.startActivity(intent);
+    }
+
+
 
     // TODO: add back functionality
 }

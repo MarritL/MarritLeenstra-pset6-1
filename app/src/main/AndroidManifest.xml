@@ -47,8 +47,8 @@
             android:parentActivityName=".SignInActivity">
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".SettingsActivity">
+            <!--android:parentActivityName=".MainActivity">-->
         </activity>
         <activity
             android:name=".ChangeEmailActivity"
