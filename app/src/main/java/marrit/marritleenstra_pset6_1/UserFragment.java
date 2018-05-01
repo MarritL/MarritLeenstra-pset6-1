@@ -48,7 +48,9 @@ public class UserFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_user, container, false);
 
         // get User data
-        User user = (User) getArguments().getSerializable("USERDATA");
+        UserLab userLab = UserLab.getInstance();
+        User user = userLab.getUser();
+        //User user = (User) getArguments().getSerializable("USERDATA");
 
         // initiate UI components
         mUserName = (TextView) v.findViewById(R.id.TV_username);

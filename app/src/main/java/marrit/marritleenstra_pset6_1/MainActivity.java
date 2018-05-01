@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -89,20 +90,20 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                     HomeFragment homeFragment = new HomeFragment();
 
                     // add User data
-                    Bundle data = new Bundle();
-                    Log.d(TAG, "to fragment id:" + mUser.getUID());
-                    data.putString("USER", mUser.getUID());
-                    data.putSerializable("USERDATA", mUser);
+                    //Bundle data = new Bundle();
+                    //Log.d(TAG, "to fragment id:" + mUser.getUID());
+                    //data.putString("USER", mUser.getUID());
+                    //data.putSerializable("USERDATA", mUser);
                     //data.putSerializable("RECIPE", recipes);
-                    homeFragment.setArguments(data);
+                    //homeFragment.setArguments(data);
 
                     // add the fragment to the 'fragment_container' framelayout
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
                     transaction.replace(R.id.fragment_container, homeFragment);
                     transaction.addToBackStack(null);
-                    transaction.commit();
-                    //transaction.commitAllowingStateLoss(); // delete account doesn't work with normal .commit()
+                    //transaction.commit();
+                    transaction.commitAllowingStateLoss(); // delete account doesn't work with normal .commit()
 
                     return true;
 
@@ -196,12 +197,21 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
             RecipeLab recipeLab = RecipeLab.getInstance();
             recipeLab.fillRecipeArray();
 
+            // Start UserLab
+            UserLab userLab = UserLab.getInstance();
+            userLab.fillUserData();
+
+            /*if (savedInstanceState == null) {
+                Log.d(TAG,"in onDataChange if savedInstancestate is null");
+                navigation.setSelectedItemId(R.id.navigation_home);
+            }*/
+
             // Read from the database
-            final String mUid = firebaseUser.getUid();
-            mDatabase = FirebaseDatabase.getInstance().getReference();
+            //final String mUid = firebaseUser.getUid();
+            //mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-            mDatabase.addValueEventListener(new ValueEventListener() {
+           /* mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
@@ -230,10 +240,10 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                             mOnStarted = true;
                         }
 
-                        /*if (savedInstanceState == null) {
+                        if (savedInstanceState == null) {
                             Log.d(TAG,"in onDataChange if savedInstancestate is null");
                             navigation.setSelectedItemId(R.id.navigation_home);
-                        }*/
+                        }
                     }
 
                     // when data changed set all the community values to 0
@@ -272,7 +282,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                     // Failed to read value
                     Log.w(TAG, "Failed to read value.", error.toException());
                 }
-            });
+            });*/
 
         }
 
@@ -376,7 +386,6 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     @Override
     public void onDestroy(){
         Log.d(TAG, "onDestroy called");
-        //settings.edit();
         editor.putBoolean("ISSTARTEDBEFORE", false);
         editor.commit();
         super.onDestroy();

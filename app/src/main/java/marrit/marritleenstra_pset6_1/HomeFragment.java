@@ -103,7 +103,9 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         // get user data
-        user = (User) getArguments().getSerializable("USERDATA");
+        //user = (User) getArguments().getSerializable("USERDATA");
+        UserLab userLab = UserLab.getInstance();
+        user = userLab.getUser();
 
         // initiate UI components
         mYesButton = (Button) v.findViewById(R.id.button_yes);
