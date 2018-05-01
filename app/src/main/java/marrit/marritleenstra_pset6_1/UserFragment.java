@@ -42,13 +42,31 @@ public class UserFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        System.out.println(TAG + " onCreate called");
+        if (getArguments() != null) {
+            //mParam1 = getArguments().getString(ARG_PARAM1);
+            //mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+        // get User data
+        //User user = (User) getArguments().getSerializable("USERDATA");
+        UserLab userLab = UserLab.getInstance();
+        mUser = userLab.getUser();
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_user, container, false);
 
-        // get User data
-        User user = (User) getArguments().getSerializable("USERDATA");
+        /*// get User data
+        //User user = (User) getArguments().getSerializable("USERDATA");
+        UserLab userLab = UserLab.getInstance();
+        User user = userLab.getUser();*/
 
         // initiate UI components
         mUserName = (TextView) v.findViewById(R.id.TV_username);
@@ -59,14 +77,14 @@ public class UserFragment extends Fragment {
         mSettings = (ImageButton) v.findViewById(R.id.IB_settings);
 
         // Set all UI components
-        mUserName.setText(user.getDisplayName());
-        mRunStreak.setText(String.valueOf(user.getRunStreak()));
-        mTotalDays.setText(String.valueOf(user.getDaysVegetarian()));
-        mTotalAnimals.setText(String.format("%.2f", user.getAnimalsSaved()));
-        mTotalCO2.setText(String.format("%.1f", user.getCO2Avoided()));
+        mUserName.setText(mUser.getDisplayName());
+        mRunStreak.setText(String.valueOf(mUser.getRunStreak()));
+        mTotalDays.setText(String.valueOf(mUser.getDaysVegetarian()));
+        mTotalAnimals.setText(String.format("%.2f", mUser.getAnimalsSaved()));
+        mTotalCO2.setText(String.format("%.1f", mUser.getCO2Avoided()));
 
         // get the animals saved
-        Bundle animals = calculateAnimals(user.getDaysVegetarian());
+        Bundle animals = calculateAnimals(mUser.getDaysVegetarian());
         cow = animals.getInt("COW");
         horse = animals.getInt("HORSE");
         calf = animals.getInt("CALF");

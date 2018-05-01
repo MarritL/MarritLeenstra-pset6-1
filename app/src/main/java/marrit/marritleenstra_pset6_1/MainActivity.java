@@ -90,11 +90,11 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
 
                     // add User data
                     Bundle data = new Bundle();
-                    Log.d(TAG, "to fragment id:" + mUser.getUID());
-                    data.putString("USER", mUser.getUID());
-                    data.putSerializable("USERDATA", mUser);
+                    //Log.d(TAG, "to fragment id:" + mUser.getUID());
+                    //data.putString("USER", mUser.getUID());
+                    //data.putSerializable("USERDATA", mUser);
                     //data.putSerializable("RECIPE", recipes);
-                    homeFragment.setArguments(data);
+                    //homeFragment.setArguments(data);
 
                     // add the fragment to the 'fragment_container' framelayout
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -111,9 +111,9 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                     UserFragment userFragment = new UserFragment();
 
                     // add User data
-                    Bundle dataUser = new Bundle();
-                    dataUser.putSerializable("USERDATA", mUser);
-                    userFragment.setArguments(dataUser);
+                    //Bundle dataUser = new Bundle();
+                    //dataUser.putSerializable("USERDATA", mUser);
+                    //userFragment.setArguments(dataUser);
 
                     // add the fragment to the 'fragment_container' framelayout
                     FragmentTransaction newTransaction = getSupportFragmentManager().beginTransaction();
@@ -196,12 +196,33 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
             RecipeLab recipeLab = RecipeLab.getInstance();
             recipeLab.fillRecipeArray();
 
-            // Read from the database
+            UserLab userLab = UserLab.getInstance();
+            userLab.fillUserData();
+            mUser = userLab.getUser();
+            // display displayName in the bottomNavigation
+            // check again if user is not null (evoked error when user unsubscribed)
+            /*if (mUser != null) {
+                System.out.print(TAG + "in mUser != null");
+                String mDisplayname = mUser.getDisplayName();
+                String recipes = mUser.getRecipes();
+                int runstreak = mUser.getRunStreak();
+                System.out.println("MAINACTIVITY recipes + runstreak: " + recipes + "+" + runstreak);
+                navigation.getMenu().findItem(R.id.navigation_user).setTitle(mDisplayname);
+            }*/
+
+            /*if (savedInstanceState == null) {
+                    Log.d(TAG,"in onDataChange if savedInstancestate is null");
+                    navigation.setSelectedItemId(R.id.navigation_home);
+            }*/
+
+
+
+            /*// Read from the database
             final String mUid = firebaseUser.getUid();
-            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase = FirebaseDatabase.getInstance().getReference();*/
 
 
-            mDatabase.addValueEventListener(new ValueEventListener() {
+            /*mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
@@ -230,10 +251,10 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                             mOnStarted = true;
                         }
 
-                        /*if (savedInstanceState == null) {
+                        if (savedInstanceState == null) {
                             Log.d(TAG,"in onDataChange if savedInstancestate is null");
                             navigation.setSelectedItemId(R.id.navigation_home);
-                        }*/
+                        }
                     }
 
                     // when data changed set all the community values to 0
@@ -272,7 +293,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                     // Failed to read value
                     Log.w(TAG, "Failed to read value.", error.toException());
                 }
-            });
+            });*/
 
         }
 
