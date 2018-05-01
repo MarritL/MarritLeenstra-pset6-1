@@ -42,15 +42,31 @@ public class UserFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        System.out.println(TAG + " onCreate called");
+        if (getArguments() != null) {
+            //mParam1 = getArguments().getString(ARG_PARAM1);
+            //mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+        // get User data
+        //User user = (User) getArguments().getSerializable("USERDATA");
+        UserLab userLab = UserLab.getInstance();
+        mUser = userLab.getUser();
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_user, container, false);
 
-        // get User data
-        UserLab userLab = UserLab.getInstance();
-        User user = userLab.getUser();
+        /*// get User data
         //User user = (User) getArguments().getSerializable("USERDATA");
+        UserLab userLab = UserLab.getInstance();
+        User user = userLab.getUser();*/
 
         // initiate UI components
         mUserName = (TextView) v.findViewById(R.id.TV_username);

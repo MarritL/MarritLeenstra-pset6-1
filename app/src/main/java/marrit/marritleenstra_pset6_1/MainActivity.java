@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -102,8 +101,8 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
 
                     transaction.replace(R.id.fragment_container, homeFragment);
                     transaction.addToBackStack(null);
-                    //transaction.commit();
-                    transaction.commitAllowingStateLoss(); // delete account doesn't work with normal .commit()
+                    transaction.commit();
+                    //transaction.commitAllowingStateLoss(); // delete account doesn't work with normal .commit()
 
                     return true;
 
@@ -112,9 +111,9 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
                     UserFragment userFragment = new UserFragment();
 
                     // add User data
-                    Bundle dataUser = new Bundle();
-                    dataUser.putSerializable("USERDATA", mUser);
-                    userFragment.setArguments(dataUser);
+                    //Bundle dataUser = new Bundle();
+                    //dataUser.putSerializable("USERDATA", mUser);
+                    //userFragment.setArguments(dataUser);
 
                     // add the fragment to the 'fragment_container' framelayout
                     FragmentTransaction newTransaction = getSupportFragmentManager().beginTransaction();
@@ -197,21 +196,33 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
             RecipeLab recipeLab = RecipeLab.getInstance();
             recipeLab.fillRecipeArray();
 
-            // Start UserLab
             UserLab userLab = UserLab.getInstance();
             userLab.fillUserData();
-
-            /*if (savedInstanceState == null) {
-                Log.d(TAG,"in onDataChange if savedInstancestate is null");
-                navigation.setSelectedItemId(R.id.navigation_home);
+            mUser = userLab.getUser();
+            // display displayName in the bottomNavigation
+            // check again if user is not null (evoked error when user unsubscribed)
+            /*if (mUser != null) {
+                System.out.print(TAG + "in mUser != null");
+                String mDisplayname = mUser.getDisplayName();
+                String recipes = mUser.getRecipes();
+                int runstreak = mUser.getRunStreak();
+                System.out.println("MAINACTIVITY recipes + runstreak: " + recipes + "+" + runstreak);
+                navigation.getMenu().findItem(R.id.navigation_user).setTitle(mDisplayname);
             }*/
 
-            // Read from the database
-            //final String mUid = firebaseUser.getUid();
-            //mDatabase = FirebaseDatabase.getInstance().getReference();
+            /*if (savedInstanceState == null) {
+                    Log.d(TAG,"in onDataChange if savedInstancestate is null");
+                    navigation.setSelectedItemId(R.id.navigation_home);
+            }*/
 
 
-           /* mDatabase.addValueEventListener(new ValueEventListener() {
+
+            /*// Read from the database
+            final String mUid = firebaseUser.getUid();
+            mDatabase = FirebaseDatabase.getInstance().getReference();*/
+
+
+            /*mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
@@ -386,6 +397,7 @@ public class MainActivity extends FragmentActivity implements RecipesHelper.Call
     @Override
     public void onDestroy(){
         Log.d(TAG, "onDestroy called");
+        //settings.edit();
         editor.putBoolean("ISSTARTEDBEFORE", false);
         editor.commit();
         super.onDestroy();

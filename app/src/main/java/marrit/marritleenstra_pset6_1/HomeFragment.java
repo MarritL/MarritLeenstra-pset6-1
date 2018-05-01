@@ -90,10 +90,18 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("HOMEFRAGMENT: onCreateCalled");
         if (getArguments() != null) {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // get user data
+        UserLab userLab = UserLab.getInstance();
+        user = userLab.getUser();
+        System.out.println("HOMEFRAGMENT: user= " + user);
+        //user = (User) getArguments().getSerializable("USERDATA");
+
     }
 
     @Override
@@ -102,10 +110,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // get user data
-        //user = (User) getArguments().getSerializable("USERDATA");
-        UserLab userLab = UserLab.getInstance();
-        user = userLab.getUser();
+
 
         // initiate UI components
         mYesButton = (Button) v.findViewById(R.id.button_yes);
