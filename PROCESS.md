@@ -104,6 +104,12 @@ Marrit Leenstra
   * Problem: unsubscribe doesn't work anymore.
   * Reason: i added an extra eventlistener to the code (to get the recipes from the database), when i try to delete the userdata from the database. This listener protests (because his data is gone too).
      * Solution: Seperate the recipes from the user in the database, so that the listeners are not listening to the same data.
+
+# 4-5-2018
+* Fixed a major bug in my app
+  * Problem: I used onSafeIntanceState() inside the Firebase onDataChange listener, to select the right tab only on first launching the app. However, sometimes after turning the phone, a fatal error occured: illigalStateException: cannot perform this action after onSafeInstanceSate.
+  * Reason: while working with the fragments the app had stateloss
+     * Solution: I put all classes in a singleton (user, recipe and community) and put all the firebase listeners in the singletons. In this way one instance of all classes would be available in all activities and fragments and the data didn't need to be sent to the fragments with bundles. I load all the data and initate the onDataChange listeners right after login, so that it is available through the app. However, this loading takes a little time and therefor one drawback was that i need a spashscreen after login to wait for the data to be available.
   
        
      
