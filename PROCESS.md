@@ -110,6 +110,11 @@ Marrit Leenstra
   * Problem: I used onSafeIntanceState() inside the Firebase onDataChange listener, to select the right tab only on first launching the app. However, sometimes after turning the phone, a fatal error occured: illigalStateException: cannot perform this action after onSafeInstanceSate.
   * Reason: while working with the fragments the app had stateloss
      * Solution: I put all classes in a singleton (user, recipe and community) and put all the firebase listeners in the singletons. In this way one instance of all classes would be available in all activities and fragments and the data didn't need to be sent to the fragments with bundles. I load all the data and initate the onDataChange listeners right after login, so that it is available through the app. However, this loading takes a little time and therefor one drawback was that i need a spashscreen after login to wait for the data to be available.
+     
+# 4-5-2018
+* Added settings tab
+   * First i tought to put a settingsbutton on the user-tab. But it is not clear for the user where he can find it. The design of the app is better when there is only one menu, where the user can find all possible actions. 
+     * Solution: add a settings tab to the bottom navigation
   
        
      
