@@ -121,6 +121,9 @@ Marrit Leenstra
    * Problem: when a new user is registred and opens the app, the data from the first user is displayed
    * Reason: since using a singleton, only one instance of userLab is made. At the moment this hold the data of only user one.
      * Solution: adding a list of users to the singleton and get the right user by id.
+   * Problem: This solution did not work wel, because the fireBase value event listener didn't register datachanges anymore.
+     * Solution: i decided that onDataChange was better in the MainActivity, because then you see the changes right away. Therefor that the singleton for users was not a good idee. However, then i am back at the problem of stateloss.
+     * Solution: I give the Userclass an extra variable namly onLaunch, that is true when the hometab has to be selected and false if that is already done. In this way I avoid using the saveInstanceState bundle in the onDataChange listener from Firebase.
      
   
        
