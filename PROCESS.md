@@ -115,6 +115,13 @@ Marrit Leenstra
 * Added settings tab
    * First i tought to put a settingsbutton on the user-tab. But it is not clear for the user where he can find it. The design of the app is better when there is only one menu, where the user can find all possible actions. 
      * Solution: add a settings tab to the bottom navigation
+
+# 5-5-2018
+* User management
+   * Problem: when a new user is registred and opens the app, the data from the first user is displayed
+   * Reason: since using a singleton, only one instance of userLab is made. At the moment this hold the data of only user one.
+     * Solution: adding a list of users to the singleton and get the right user by id.
+     
   
        
      
