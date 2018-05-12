@@ -124,7 +124,13 @@ Marrit Leenstra
    * Problem: This solution did not work wel, because the fireBase value event listener didn't register datachanges anymore.
      * Solution: i decided that onDataChange was better in the MainActivity, because then you see the changes right away. Therefor that the singleton for users was not a good idee. However, then i am back at the problem of stateloss.
      * Solution: I give the Userclass an extra variable namly onLaunch, that is true when the hometab has to be selected and false if that is already done. In this way I avoid using the saveInstanceState bundle in the onDataChange listener from Firebase.
-     
+
+# 12-5-2-18
+* Testing app: practically finished
+   * Problem: while testing the app, I found out that the NightJobs are not carried out the way i wanted. 
+   * Reason: I am logged out in the night. The NightJobs therefor didn't have the UID to update the data in the database as well as there was no permission to read/write in the database while user logged out.
+     * Solution: Added the UID as intent extra with the pendingIntent to the receiver and made read and write rules pulbic in the firebase database.
+
   
        
      
